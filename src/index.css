@@ -1,0 +1,80 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Animation classes */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slideIn {
+  from { transform: translateX(-100%); }
+  to { transform: translateX(0); }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.6s ease-out forwards;
+}
+
+.animate-slide-in {
+  animation: slideIn 0.6s ease-out forwards;
+}
+
+/* Card hover effects */
+.card-hover {
+  transition: all 0.3s ease;
+}
+
+.card-hover:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+}
+
+/* Gradient text */
+.gradient-text {
+  @apply bg-gradient-to-r from-blue-600 to-cyan-500 text-transparent bg-clip-text;
+}
+
+/* Button styles */
+.button-primary {
+  @apply bg-white text-blue-600 px-8 py-3 rounded-full font-semibold hover:bg-blue-50 transition-all duration-300 transform hover:scale-105;
+}
+
+.button-secondary {
+  @apply border-2 border-white text-white px-8 py-3 rounded-full font-semibold transition-all duration-300 transform hover:scale-105;
+}
+
+/* ElevenLabs Convai Widget Styling */
+elevenlabs-convai {
+  --convai-primary-color: #2563eb;
+  --convai-secondary-color: #0ea5e9;
+  --convai-border-radius: 1rem;
+  --convai-font-family: inherit;
+}
+
+elevenlabs-convai::part(widget) {
+  box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+  border-radius: 1rem;
+}
+
+elevenlabs-convai::part(button) {
+  background: linear-gradient(to right, #2563eb, #0ea5e9);
+  border-radius: 9999px;
+  transition: all 0.3s ease;
+}
+
+elevenlabs-convai::part(button):hover {
+  transform: scale(1.05);
+  background: linear-gradient(to right, #1d4ed8, #0284c7);
+}
+
+/* Loading states */
+.loading {
+  @apply animate-pulse bg-gray-200;
+}
+
+/* Smooth scroll behavior */
+html {
+  scroll-behavior: smooth;
+}

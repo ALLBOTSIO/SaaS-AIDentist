@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AIDentist - AI Voice Agents for Dental Practices</title>
+    <script src="https://elevenlabs.io/convai-widget/index.js" async type="text/javascript"></script>
+    <style>
+      /* Ensure the widget is hidden by default */
+      elevenlabs-convai:not([visible="true"]) {
+        display: none;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="root"></div>
+    <elevenlabs-convai 
+      agent-id="hadjLhIsDrBjctWIQ8tI"
+      class="fixed bottom-4 right-4 z-50"
+    ></elevenlabs-convai>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

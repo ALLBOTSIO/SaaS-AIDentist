@@ -2,79 +2,160 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Animation classes */
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(20px); }
-  to { opacity: 1; transform: translateY(0); }
+@layer base {
+  :root {
+    /* Light Mode Colors */
+    --color-primary-light: #00A6E6;
+    --color-secondary-light: #2A3342;
+    --color-accent-light: #F0F7FF;
+    --color-success-light: #34D399;
+    --color-warning-light: #F59E0B;
+    --color-error-light: #EF4444;
+    --color-info-light: #8B5CF6;
+
+    /* Dark Mode Colors */
+    /* Brand Colors */
+    --color-primary: #00A6E6;
+    --color-secondary: #2A3342;
+    --color-accent: #F0F7FF;
+
+    /* Supporting Colors */
+    --color-success: #34D399;
+    --color-warning: #F59E0B;
+    --color-error: #EF4444;
+    --color-info: #8B5CF6;
+
+    /* Gradients */
+    --gradient-primary: from-[#1E3A8A] via-[#1E40AF] to-[#1E3A8A];
+    --gradient-surface: from-gray-900 via-gray-800 to-gray-900;
+    --gradient-accent: from-[#00A6E6]/5 to-[#2A3342]/5;
+
+    /* Typography */
+    --font-family: 'Inter', sans-serif;
+
+    /* Spacing */
+    --spacing-2: 0.5rem;
+    --spacing-4: 1rem;
+    --spacing-6: 1.5rem;
+    --spacing-8: 2rem;
+    --spacing-12: 3rem;
+    --spacing-16: 4rem;
+
+    /* Border Radius */
+    --radius-sm: 0.25rem;
+    --radius-md: 0.5rem;
+    --radius-lg: 0.625rem;
+    --radius-xl: 0.75rem;
+    --radius-2xl: 1rem;
+
+    /* Shadows */
+    --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+    --shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+    --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+
+    /* Background System */
+    --color-background: 17 24 39;      /* #111827 - Base Background */
+    --color-surface: 31 41 55;         /* #1F2937 - Surface */
+    --color-overlay: 17 24 39;         /* #111827 - Overlay */
+
+    /* Animation Durations */
+    --animation-fast: 200ms;
+    --animation-normal: 300ms;
+    --animation-slow: 500ms;
+  }
+
+  body {
+    @apply font-sans antialiased scroll-smooth transition-colors duration-300;
+    @apply bg-gradient-to-br from-blue-50 via-white to-blue-50 text-gray-900;
+    @apply dark:bg-gradient-to-br dark:from-[#1E3A8A] dark:via-[#1E40AF] dark:to-[#1E3A8A] dark:text-white;
+  }
 }
 
-@keyframes slideIn {
-  from { transform: translateX(-100%); }
-  to { transform: translateX(0); }
+@layer components {
+  .btn-primary {
+    @apply inline-flex items-center justify-center px-6 py-3 text-base font-medium text-white bg-[#00A6E6] rounded-lg hover:bg-[#0095D1] transition-colors duration-200;
+  }
+
+  .btn-secondary {
+    @apply inline-flex items-center justify-center px-6 py-3 text-base font-medium text-white border-2 border-white/30 rounded-lg hover:bg-white/10 transition-colors duration-200;
+  }
+
+  .card {
+    @apply bg-white rounded-2xl shadow-lg p-6 lg:p-8 hover:shadow-xl transition-all;
+  }
+
+  .gradient-text {
+    @apply bg-clip-text text-transparent bg-gradient-to-br from-[#00A6E6] to-[#0095D1];
+  }
+
+  .section-padding {
+    @apply py-12 px-4 sm:px-6 lg:px-8;
+  }
+
+  .section-title {
+    @apply text-3xl font-bold text-white mb-6;
+  }
+
+  .section-subtitle {
+    @apply text-lg text-gray-300 max-w-3xl mx-auto;
+  }
+
+  .feature-badge {
+    @apply inline-block px-4 py-2 rounded-full bg-[#00A6E6]/10 text-[#00A6E6] text-sm font-medium mb-6;
+  }
 }
 
-.animate-fade-in {
-  animation: fadeIn 0.6s ease-out forwards;
+@layer utilities {
+  .bg-gradient-primary {
+    @apply bg-gradient-to-br from-[#1E3A8A] via-[#1E40AF] to-[#1E3A8A];
+  }
+
+  .bg-gradient-surface {
+    @apply bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900;
+  }
+
+  .bg-gradient-accent {
+    @apply bg-gradient-to-br from-[#00A6E6]/5 to-[#2A3342]/5;
+  }
+
+  .backdrop-blur {
+    @apply backdrop-blur-lg backdrop-saturate-[1.2];
+  }
+
+  .shadow-glow {
+    @apply shadow-[0_0_30px_rgba(0,166,230,0.2)];
+  }
+
+  .animate-float {
+    @apply animate-[float_6s_ease-in-out_infinite];
+  }
+
+  .animate-pulse-slow {
+    @apply animate-[pulse_3s_ease-in-out_infinite];
+  }
 }
 
-.animate-slide-in {
-  animation: slideIn 0.6s ease-out forwards;
-}
+@layer utilities {
+  .bg-grid-pattern {
+    background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cpath d='M0 0h60v60H0z'/%3E%3Cpath d='M30 30h30v30H30z' fill='%23fff' fill-opacity='.05'/%3E%3C/g%3E%3C/svg%3E");
+  }
 
-/* Card hover effects */
-.card-hover {
-  transition: all 0.3s ease;
-}
+  @keyframes float {
+    0% {
+      transform: translateY(0px);
+    }
+    50% {
+      transform: translateY(-20px);
+    }
+    100% {
+      transform: translateY(0px);
+    }
+  }
 
-.card-hover:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
-}
-
-/* Gradient text */
-.gradient-text {
-  @apply bg-gradient-to-r from-blue-600 to-cyan-500 text-transparent bg-clip-text;
-}
-
-/* Button styles */
-.button-primary {
-  @apply bg-white text-blue-600 px-8 py-3 rounded-full font-semibold hover:bg-blue-50 transition-all duration-300 transform hover:scale-105;
-}
-
-.button-secondary {
-  @apply border-2 border-white text-white px-8 py-3 rounded-full font-semibold transition-all duration-300 transform hover:scale-105;
-}
-
-/* ElevenLabs Convai Widget Styling */
-elevenlabs-convai {
-  --convai-primary-color: #2563eb;
-  --convai-secondary-color: #0ea5e9;
-  --convai-border-radius: 1rem;
-  --convai-font-family: inherit;
-}
-
-elevenlabs-convai::part(widget) {
-  box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
-  border-radius: 1rem;
-}
-
-elevenlabs-convai::part(button) {
-  background: linear-gradient(to right, #2563eb, #0ea5e9);
-  border-radius: 9999px;
-  transition: all 0.3s ease;
-}
-
-elevenlabs-convai::part(button):hover {
-  transform: scale(1.05);
-  background: linear-gradient(to right, #1d4ed8, #0284c7);
-}
-
-/* Loading states */
-.loading {
-  @apply animate-pulse bg-gray-200;
-}
-
-/* Smooth scroll behavior */
-html {
-  scroll-behavior: smooth;
+  /* Decorative Elements */
+  .decorative-blur {
+    @apply absolute rounded-full blur-3xl opacity-20 mix-blend-soft-light pointer-events-none transition-all duration-1000;
+  }
 }

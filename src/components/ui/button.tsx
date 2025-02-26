@@ -9,9 +9,9 @@ const buttonVariants = cva(
   {
     variants: {
       variant: {
-        default: "bg-[#00A6E6] text-white hover:bg-[#0095D1] active:scale-[0.98] transform transition-all duration-200",
-        secondary: "bg-white/10 backdrop-blur-sm text-white hover:bg-white/20 active:scale-[0.98] transform transition-all duration-200",
-        ghost: "hover:bg-white/5 text-white active:scale-[0.98] transform transition-all duration-200",
+        default: "bg-[#0076A6] text-white relative border-[3px] border-transparent transition-all duration-300 ease-in-out transform-gpu will-change-[border,box-shadow] hover:border-[#00f3ff] hover:shadow-[-4px_0_8px_rgba(0,243,255,0.6)] focus:border-[#00f3ff] focus:shadow-[-4px_0_8px_rgba(0,243,255,0.6)] focus:outline-none active:scale-[0.98]",
+        secondary: "bg-white/20 backdrop-blur-sm text-white relative border-[3px] border-white/40 transition-all duration-300 ease-in-out transform-gpu will-change-[border,box-shadow] hover:border-[#00f3ff] hover:shadow-[-4px_0_8px_rgba(0,243,255,0.6)] hover:bg-white/10 focus:border-[#00f3ff] focus:shadow-[-4px_0_8px_rgba(0,243,255,0.6)] focus:outline-none active:scale-[0.98]",
+        ghost: "text-white relative border-[3px] border-transparent transition-all duration-300 ease-in-out transform-gpu will-change-[border,box-shadow] hover:bg-white/5 hover:border-[#00f3ff] hover:shadow-[-4px_0_8px_rgba(0,243,255,0.6)] focus:border-[#00f3ff] focus:shadow-[-4px_0_8px_rgba(0,243,255,0.6)] focus:outline-none active:scale-[0.98]",
       },
       size: {
         default: "h-11 px-6 py-2",
@@ -27,7 +27,11 @@ const buttonVariants = cva(
   }
 );
 
-const MotionButton = motion(React.forwardRef<HTMLButtonElement>((props, ref) => (
+interface MotionButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+  ref?: React.Ref<HTMLButtonElement>;
+}
+
+const MotionButton = motion(React.forwardRef<HTMLButtonElement, MotionButtonProps>((props, ref) => (
   <button ref={ref} {...props} />
 )));
 
@@ -41,7 +45,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
   ({ className, variant, size, asChild = false, ...props }, ref) => {
     const Comp = asChild ? Slot : MotionButton;
     return (
-      <Comp
+      <Comp<HTMLButtonElement>
         className={cn(buttonVariants({ variant, size, className }))}
         ref={ref}
         whileHover={{ scale: 1.02 }}

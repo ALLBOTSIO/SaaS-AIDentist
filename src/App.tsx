@@ -7,10 +7,8 @@ import Features from './components/Features';
 import { MetricsCarousel } from './components/MetricsCarousel';
 import { ROICalculator } from './components/ROICalculator';
 import { SocialProof } from './components/SocialProof';
-import TeamSection from './components/TeamSection';
 import { CTABanner } from './components/CTABanner';
-import { ImplementationRoadmap } from './components/ImplementationRoadmap';
-import Footer from './components/Footer';
+import { Footer } from '@/components/shared/Footer';
 import { VoiceAgentWidget } from './components/VoiceAgentWidget';
 import { Toaster } from './components/ui/toaster';
 import InsuranceVerification from './routes/InsuranceVerification';
@@ -94,20 +92,16 @@ function App() {
           <div id="proof" className={sectionStyle}>
             {decorativeElements}
             <SocialProof />
-            <TeamSection />
           </div>
           <div id="cta" className={sectionStyle}>
             {decorativeElements}
             <CTABanner />
           </div>
-          <div id="contact" className={sectionStyle}>
-            {decorativeElements}
-            <Footer />
-          </div>
           <VoiceAgentWidget />
           <Toaster />
         </>
       )}
+      {currentPath !== '/signup' && <Footer />}
     </div>
   );
 }

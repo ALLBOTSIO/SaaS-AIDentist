@@ -2,9 +2,16 @@ import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Calendar, ArrowRight } from 'lucide-react';
 import LeadForm from './LeadForm';
+import { useCalendly } from '@/lib/hooks/useCalendly';
+import { CalendlyModal } from '@/components/CalendlyModal';
 import { trackEvent } from '@/lib/analytics';
 
-const titles = [
+interface TitleContent {
+  heading: string;
+  subtext: string;
+}
+
+const titles: TitleContent[] = [
   {
     heading: "AI-Powered Excellence in Modern Dentistry",
     subtext: "Transform your dental practice with intelligent automation patient, streamlines operations, and automates patient follow-up. Experience the power of AI that works as precisely as you do."
@@ -30,6 +37,7 @@ const titles = [
 const Hero = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [showLeadForm, setShowLeadForm] = useState(false);
+  const { isCalendlyOpen, openCalendly, closeCalendly } = useCalendly();
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -125,18 +133,16 @@ const Hero = () => {
             transition={{ duration: 0.8, delay: 0.6 }}
             className="flex flex-col sm:flex-row gap-6"
           >
-            <motion.a 
-              href="https://calendly.com/ai-consultant/ai-project-kickoff"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="group flex items-center justify-center px-8 py-4 text-lg font-medium rounded-xl bg-white text-gray-900 hover:bg-white/90 transform hover:-translate-y-0.5 transition-all duration-200 shadow-lg hover:shadow-xl"
+            <motion.button
+              onClick={openCalendly}
+              className="btn-secondary group flex items-center justify-center px-8 py-4 text-lg font-medium"
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
             >
               <Calendar className="w-5 h-5 mr-2" />
               Book a Demo
               <ArrowRight className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" />
-            </motion.a>
+            </motion.button>
             
             <motion.a 
               href="/setup"
@@ -144,7 +150,7 @@ const Hero = () => {
                 e.preventDefault();
                 handleCreateAccount();
               }}
-              className="px-8 py-4 text-lg font-medium rounded-xl border-2 border-white/30 text-white hover:bg-white/10 transform hover:-translate-y-0.5 transition-all duration-200 backdrop-blur-sm"
+              className="btn-secondary flex items-center justify-center px-8 py-4 text-lg font-medium"
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
             >
@@ -176,6 +182,7 @@ const Hero = () => {
           </>
         )}
       </AnimatePresence>
+      <CalendlyModal isOpen={isCalendlyOpen} onClose={closeCalendly} />
     </div>
   );
 };

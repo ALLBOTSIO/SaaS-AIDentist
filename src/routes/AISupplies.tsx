@@ -1,35 +1,107 @@
 import React from 'react';
 import { Helmet } from 'react-helmet-async';
 import { motion } from 'framer-motion';
-import { Bot, ArrowRight, CheckCircle, Package, BarChart2, Brain, Boxes } from 'lucide-react';
+import { Bot, ArrowRight, CheckCircle, Package, BarChart2, Brain, Boxes, AlertCircle, Calendar, DollarSign, LineChart, Truck, FileText } from 'lucide-react';
 import { Header } from '@/components/shared/Header';
+import { Footer } from '@/components/shared/Footer';
 import { TransformCTA } from '@/components/shared/TransformCTA';
 import { Toaster } from '@/components/ui/toaster';
 import CountUp from 'react-countup';
+
+const partners = [
+  {
+    name: 'Henry Schein Dental',
+    logo: 'https://images.unsplash.com/photo-1599305445671-ac291c95aaa9'
+  },
+  {
+    name: 'Patterson Dental',
+    logo: 'https://images.unsplash.com/photo-1599305445671-ac291c95aaa9'
+  },
+  {
+    name: 'Benco Dental',
+    logo: 'https://images.unsplash.com/photo-1599305445671-ac291c95aaa9'
+  },
+  {
+    name: 'Darby Dental Supply',
+    logo: 'https://images.unsplash.com/photo-1599305445671-ac291c95aaa9'
+  },
+  {
+    name: 'Dentsply Sirona',
+    logo: 'https://images.unsplash.com/photo-1599305445671-ac291c95aaa9'
+  },
+  {
+    name: '3M Oral Care',
+    logo: 'https://images.unsplash.com/photo-1599305445671-ac291c95aaa9'
+  },
+  {
+    name: 'Ivoclar Vivadent',
+    logo: 'https://images.unsplash.com/photo-1599305445671-ac291c95aaa9'
+  },
+  {
+    name: 'GC America',
+    logo: 'https://images.unsplash.com/photo-1599305445671-ac291c95aaa9'
+  },
+  {
+    name: 'DentalEZ',
+    logo: 'https://images.unsplash.com/photo-1599305445671-ac291c95aaa9'
+  },
+  {
+    name: 'Kerr Dental',
+    logo: 'https://images.unsplash.com/photo-1599305445671-ac291c95aaa9'
+  }
+];
 
 const features = [
   {
     icon: Package,
     title: 'Smart Inventory Management',
-    description: 'AI-powered tracking and automated reordering based on usage patterns and predictive analytics.',
+    description: 'AI-powered tracking system with automated reorder points, real-time stock alerts, and expiration date tracking.',
+    details: [
+      'Automated reorder points based on usage',
+      'Real-time stock level monitoring',
+      'Expiration date tracking and alerts',
+      'Batch tracking and management',
+      'Multi-location inventory sync'
+    ],
     color: 'from-[#00A6E6] to-[#0095D1]'
   },
   {
     icon: BarChart2,
     title: 'Analytics Dashboard',
-    description: 'Real-time insights into supply usage, costs, and optimization opportunities.',
+    description: 'Comprehensive analytics with usage patterns, cost optimization, budget tracking, and custom reports.',
+    details: [
+      'Usage pattern analysis',
+      'Cost optimization suggestions',
+      'Budget tracking and forecasting',
+      'Inventory turnover metrics',
+      'Custom report generation'
+    ],
     color: 'from-[#00A6E6] to-[#0095D1]'
   },
   {
     icon: Brain,
     title: 'AI-Powered Assistant',
-    description: 'Intelligent recommendations for supply optimization and cost reduction.',
+    description: 'Advanced AI assistant with predictive ordering, seasonal forecasting, and supply chain optimization.',
+    details: [
+      'Predictive ordering system',
+      'Seasonal demand forecasting',
+      'Supply chain optimization',
+      'Custom par level suggestions',
+      'Procedure-based recommendations'
+    ],
     color: 'from-[#00A6E6] to-[#0095D1]'
   },
   {
     icon: Boxes,
     title: 'Supplier Integration Hub',
-    description: 'Seamless connection with multiple suppliers for automated ordering and fulfillment.',
+    description: 'Direct integration with major suppliers, price comparison, and consolidated ordering interface.',
+    details: [
+      'Multi-supplier integration',
+      'Price comparison across vendors',
+      'Consolidated ordering system',
+      'Order history tracking',
+      'Automated fulfillment'
+    ],
     color: 'from-[#00A6E6] to-[#0095D1]'
   }
 ];
@@ -92,8 +164,26 @@ const AISupplies = () => {
         <Header transparent={false} />
         
         {/* Hero Section */}
-        <section className="relative pt-32 pb-20 overflow-hidden">
+        <section className="relative pt-32 pb-20 overflow-hidden bg-gradient-to-br from-[#1E3A8A] via-[#1E40AF] to-[#1E3A8A]">
           <div className="absolute inset-0 bg-grid-pattern opacity-20" />
+          <motion.div
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 0.15, scale: 1 }}
+            transition={{ duration: 1.5, ease: "easeOut" }}
+            className="absolute top-0 right-0 w-[600px] h-[600px] bg-[#60A5FA]/20 rounded-full blur-3xl transform translate-x-1/3 -translate-y-1/3"
+          />
+          <motion.div
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 0.1, scale: 1 }}
+            transition={{ duration: 1.5, delay: 0.2, ease: "easeOut" }}
+            className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-[#93C5FD]/20 rounded-full blur-3xl transform -translate-x-1/3 translate-y-1/3"
+          />
+          <motion.div
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 0.15, scale: 1 }}
+            transition={{ duration: 1.5, delay: 0.4, ease: "easeOut" }}
+            className="absolute top-1/4 left-1/4 w-[400px] h-[400px] bg-[#3B82F6]/20 rounded-full blur-2xl"
+          />
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
@@ -125,6 +215,27 @@ const AISupplies = () => {
                 >
                   Start Free Trial
                 </button>
+              </div>
+            </motion.div>
+
+            {/* Partner Logo Carousel */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.4 }}
+              className="mt-16 relative overflow-hidden"
+            >
+              <div className="absolute left-0 top-0 bottom-0 w-24 bg-gradient-to-r from-[#1E3A8A] to-transparent z-10" />
+              <div className="absolute right-0 top-0 bottom-0 w-24 bg-gradient-to-l from-[#1E3A8A] to-transparent z-10" />
+              <div className="flex space-x-12 animate-[scroll_30s_linear_infinite]">
+                {[...partners, ...partners].map((partner, index) => (
+                  <div
+                    key={`${partner.name}-${index}`}
+                    className="flex-shrink-0 h-16 w-48 bg-white/10 backdrop-blur-sm rounded-lg flex items-center justify-center px-6"
+                  >
+                    <span className="text-white font-medium">{partner.name}</span>
+                  </div>
+                ))}
               </div>
             </motion.div>
 
@@ -190,19 +301,48 @@ const AISupplies = () => {
                       <div className={`w-14 h-14 rounded-xl bg-gradient-to-br ${feature.color} flex items-center justify-center transform group-hover:scale-110 transition-transform duration-300`}>
                         <Icon className="w-7 h-7 text-white" />
                       </div>
-                      
                       <h3 className="text-xl font-bold text-white mt-6 mb-4">
                         {feature.title}
                       </h3>
-                      
                       <p className="text-gray-300 leading-relaxed">
                         {feature.description}
                       </p>
+                      <ul className="mt-6 space-y-3">
+                        {feature.details.map((detail, detailIndex) => (
+                          <li key={detailIndex} className="flex items-center gap-2 text-gray-300">
+                            <CheckCircle className="w-4 h-4 text-[#00A6E6]" />
+                            <span>{detail}</span>
+                          </li>
+                        ))}
+                      </ul>
                     </div>
                   </motion.div>
                 );
               })}
             </div>
+
+            {/* CTA Buttons */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              className="flex flex-col sm:flex-row gap-4 justify-center mt-12"
+            >
+              <a 
+                href="https://calendly.com/ai-consultant/ai-project-kickoff"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="btn-secondary inline-flex items-center justify-center px-8 py-4 text-lg font-semibold"
+              >
+                Schedule a Demo
+                <ArrowRight className="ml-2 w-5 h-5" />
+              </a>
+              <button 
+                className="inline-flex items-center justify-center px-8 py-4 text-lg font-semibold text-white border-2 border-white/30 rounded-xl hover:bg-white/10 transform hover:-translate-y-0.5 transition-all duration-200 backdrop-blur-sm"
+              >
+                Watch Demo Video
+              </button>
+            </motion.div>
           </div>
         </section>
 
@@ -275,6 +415,7 @@ const AISupplies = () => {
         </section>
 
         <TransformCTA />
+        <Footer />
         <Toaster />
       </div>
     </>

@@ -7,6 +7,7 @@ import { InsuranceROICalculator } from '@/components/insurance/InsuranceROICalcu
 import { InsuranceResults } from '@/components/insurance/InsuranceResults';
 import { InsuranceContactForm } from '@/components/insurance/InsuranceContactForm';
 import { TransformCTA } from '@/components/shared/TransformCTA';
+import { Footer } from '@/components/shared/Footer';
 import { Header } from '@/components/shared/Header';
 import { Toaster } from '@/components/ui/toaster';
 
@@ -33,7 +34,26 @@ const InsuranceVerification = () => {
       <div className="min-h-screen relative">
         <Header transparent={false} />
         <div id="hero" className={sectionStyle}>
-          {decorativeElements}
+          <div className="absolute inset-0 bg-gradient-to-br from-[#1E3A8A] via-[#1E40AF] to-[#1E3A8A]" />
+          <div className="absolute inset-0 bg-grid-pattern opacity-20" />
+          <motion.div
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 0.15, scale: 1 }}
+            transition={{ duration: 1.5, ease: "easeOut" }}
+            className="absolute top-0 right-0 w-[600px] h-[600px] bg-[#60A5FA]/20 rounded-full blur-3xl transform translate-x-1/3 -translate-y-1/3"
+          />
+          <motion.div
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 0.1, scale: 1 }}
+            transition={{ duration: 1.5, delay: 0.2, ease: "easeOut" }}
+            className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-[#93C5FD]/20 rounded-full blur-3xl transform -translate-x-1/3 translate-y-1/3"
+          />
+          <motion.div
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 0.15, scale: 1 }}
+            transition={{ duration: 1.5, delay: 0.4, ease: "easeOut" }}
+            className="absolute top-1/4 left-1/4 w-[400px] h-[400px] bg-[#3B82F6]/20 rounded-full blur-2xl"
+          />
           <div className="relative pt-20">
             <InsuranceHero />
           </div>
@@ -66,6 +86,7 @@ const InsuranceVerification = () => {
           {decorativeElements}
           <div className="relative">
             <TransformCTA />
+            <Footer />
           </div>
         </div>
         <Toaster />

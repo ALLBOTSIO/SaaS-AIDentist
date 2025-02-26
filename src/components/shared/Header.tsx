@@ -3,6 +3,8 @@ import { motion } from 'framer-motion';
 import { Bot, Menu, X, Building2, Users, Brain, Shield, Stethoscope } from 'lucide-react';
 import { ThemeToggle } from '@/components/ThemeToggle';
 import { useTheme } from '@/lib/theme';
+import { useCalendly } from '@/lib/hooks/useCalendly';
+import { CalendlyModal } from '@/components/CalendlyModal';
 import { useScrollTo } from '@/lib/hooks/useScrollTo';
 
 interface HeaderProps {
@@ -98,6 +100,7 @@ export const Header: React.FC<HeaderProps> = ({
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const scrollTo = useScrollTo();
   const isHomePage = window.location.pathname === '/';
+  const { isCalendlyOpen, openCalendly, closeCalendly } = useCalendly();
   
   const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
     e.preventDefault();
@@ -195,14 +198,12 @@ export const Header: React.FC<HeaderProps> = ({
             {showDemoButton && (
               <>
               <ThemeToggle />
-              <a 
-                href="https://calendly.com/ai-consultant/ai-project-kickoff"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="px-6 py-2.5 rounded-lg text-white text-[15px] font-medium transition-all duration-300 shadow-md hover:shadow-xl bg-[#00A6E6] hover:bg-[#0095D1] transform hover:-translate-y-0.5"
+              <button
+                onClick={openCalendly}
+                className="relative border-[3px] border-white/40 px-6 py-2.5 rounded-lg text-white text-[15px] font-medium transition-all duration-300 ease-in-out transform-gpu will-change-[border,box-shadow] hover:border-[#00f3ff] hover:shadow-[-4px_0_8px_rgba(0,243,255,0.6)] hover:bg-white/10"
               >
                 Book Demo
-              </a>
+              </button>
               </>
             )}
           </nav>
@@ -248,18 +249,17 @@ export const Header: React.FC<HeaderProps> = ({
                 </div>
               ))}
               {showDemoButton && (
-                <a 
-                  href="https://calendly.com/ai-consultant/ai-project-kickoff"
-                  target="_blank"
-                  rel="noopener noreferrer"
+                <button
+                  onClick={openCalendly}
                   className="bg-[#00A6E6] hover:bg-[#0095D1] text-white py-3 px-6 rounded-lg text-center"
                 >
                   Book Demo
-                </a>
+                </button>
               )}
             </nav>
           </div>
         )}
+        <CalendlyModal isOpen={isCalendlyOpen} onClose={closeCalendly} />
       </div>
     </motion.header>
   );

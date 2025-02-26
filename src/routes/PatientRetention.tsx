@@ -122,7 +122,7 @@ const PatientRetention = () => {
                 href="https://calendly.com/ai-consultant/ai-project-kickoff"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center px-8 py-4 text-lg font-semibold text-white bg-[#00A6E6] rounded-xl hover:bg-[#0095D1] transition-colors duration-200 shadow-lg hover:shadow-xl"
+                className="btn-secondary inline-flex items-center px-8 py-4 text-lg font-semibold"
               >
                 Schedule a Demo
               </a>

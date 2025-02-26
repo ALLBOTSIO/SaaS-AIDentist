@@ -5,23 +5,23 @@
 @layer base {
   :root {
     /* Light Mode Colors */
-    --color-primary-light: #00A6E6;
+    --color-primary-light: #0076A6; /* Darkened for better contrast */
     --color-secondary-light: #2A3342;
     --color-accent-light: #F0F7FF;
     --color-success-light: #34D399;
     --color-warning-light: #F59E0B;
-    --color-error-light: #EF4444;
+    --color-error-light: #DC2626; /* Darkened for better contrast */
     --color-info-light: #8B5CF6;
 
     /* Dark Mode Colors */
     /* Brand Colors */
-    --color-primary: #00A6E6;
+    --color-primary: #00B8FF; /* Brightened for better contrast on dark backgrounds */
     --color-secondary: #2A3342;
     --color-accent: #F0F7FF;
 
     /* Supporting Colors */
     --color-success: #34D399;
-    --color-warning: #F59E0B;
+    --color-warning: #FBBF24; /* Brightened for better contrast */
     --color-error: #EF4444;
     --color-info: #8B5CF6;
 
@@ -75,11 +75,21 @@
 
 @layer components {
   .btn-primary {
-    @apply inline-flex items-center justify-center px-6 py-3 text-base font-medium text-white bg-[#00A6E6] rounded-lg hover:bg-[#0095D1] transition-colors duration-200;
+    @apply inline-flex items-center justify-center px-6 py-3 text-base font-medium text-white bg-[#0076A6] rounded-lg;
+    @apply relative border-[3px] border-transparent;
+    @apply transition-all duration-300 ease-in-out;
+    @apply transform-gpu will-change-[border,box-shadow];
+    @apply hover:border-[#00f3ff] hover:shadow-[-4px_0_8px_rgba(0,243,255,0.6)];
+    @apply focus:border-[#00f3ff] focus:shadow-[-4px_0_8px_rgba(0,243,255,0.6)] focus:outline-none;
   }
 
   .btn-secondary {
-    @apply inline-flex items-center justify-center px-6 py-3 text-base font-medium text-white border-2 border-white/30 rounded-lg hover:bg-white/10 transition-colors duration-200;
+    @apply inline-flex items-center justify-center px-6 py-3 text-base font-medium text-white rounded-lg;
+    @apply relative border-[3px] border-white/40;
+    @apply transition-all duration-300 ease-in-out;
+    @apply transform-gpu will-change-[border,box-shadow];
+    @apply hover:border-[#00f3ff] hover:shadow-[-4px_0_8px_rgba(0,243,255,0.6)] hover:bg-white/10;
+    @apply focus:border-[#00f3ff] focus:shadow-[-4px_0_8px_rgba(0,243,255,0.6)] focus:outline-none;
   }
 
   .card {
@@ -103,7 +113,7 @@
   }
 
   .feature-badge {
-    @apply inline-block px-4 py-2 rounded-full bg-[#00A6E6]/10 text-[#00A6E6] text-sm font-medium mb-6;
+    @apply inline-block px-4 py-2 rounded-full bg-[#00B8FF]/15 text-[#00B8FF] text-sm font-medium mb-6;
   }
 }
 
@@ -134,6 +144,15 @@
 
   .animate-pulse-slow {
     @apply animate-[pulse_3s_ease-in-out_infinite];
+  }
+  
+  @keyframes scroll {
+    0% {
+      transform: translateX(0);
+    }
+    100% {
+      transform: translateX(-50%);
+    }
   }
 }
 

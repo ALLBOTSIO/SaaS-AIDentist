@@ -5,7 +5,7 @@ import { Button } from './ui/button';
 import { Label } from './ui/label';
 import { Input } from './ui/input';
 import { Card, CardHeader, CardTitle, CardContent } from './ui/card';
-import { PieChart as RechartsPieChart, Pie, Cell, ResponsiveContainer, Tooltip } from 'recharts';
+import { Pie, Cell, ResponsiveContainer, Tooltip, PieChart as RechartsChart } from 'recharts';
 import CountUp from 'react-countup';
 
 interface UnscheduledTreatment {
@@ -14,16 +14,17 @@ interface UnscheduledTreatment {
   color: string;
 }
 
-const unscheduledData: UnscheduledTreatment[] = [
-  { name: '1-3 months', value: 603000, color: '#00A6E6' },
-  { name: '3-6 months', value: 300000, color: '#0095D1' },
-  { name: '6-12 months', value: 500000, color: '#1E3A8A' },
-  { name: '12+ months', value: 2000000, color: '#1E40AF' }
+const initialUnscheduledData: UnscheduledTreatment[] = [
+  { name: '1-3 months', value: 603000, color: '#00A6E6', min: 100000, max: 1000000 },
+  { name: '3-6 months', value: 300000, color: '#0095D1', min: 100000, max: 1000000 },
+  { name: '6-12 months', value: 500000, color: '#1E3A8A', min: 100000, max: 1000000 },
+  { name: '12+ months', value: 2000000, color: '#1E40AF', min: 100000, max: 1000000 }
 ];
 import { useCalendly } from '@/lib/hooks/useCalendly';
 import { CalendlyModal } from '@/components/CalendlyModal';
 
 export const ROICalculator = () => {
+  const [unscheduledData, setUnscheduledData] = useState(initialUnscheduledData);
   const [inputs, setInputs] = useState({
     brokenAppointments: 20,
     hygieneRecallDue: 500,
@@ -56,6 +57,13 @@ export const ROICalculator = () => {
   ) => {
     const value = Number(e.target.value);
     setInputs(prev => ({ ...prev, [field]: value }));
+  };
+
+  const handleSliderChange = (index: number) => (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = parseInt(e.target.value);
+    const newData = [...unscheduledData];
+    newData[index] = { ...newData[index], value };
+    setUnscheduledData(newData);
   };
 
   return (
@@ -97,7 +105,7 @@ export const ROICalculator = () => {
                 <div className="flex items-start gap-8">
                   <div className="flex-1 h-[300px]">
                     <ResponsiveContainer width="100%" height="100%">
-                      <RechartsPieChart>
+                      <RechartsChart>
                         <Pie
                           data={unscheduledData}
                           cx="50%"
@@ -112,7 +120,7 @@ export const ROICalculator = () => {
                           ))}
                         </Pie>
                         <Tooltip content={<CustomTooltip />} />
-                      </RechartsPieChart>
+                      </RechartsChart>
                     </ResponsiveContainer>
                   </div>
                   
@@ -123,7 +131,7 @@ export const ROICalculator = () => {
                         initial={{ opacity: 0, x: 20 }}
                         animate={{ opacity: 1, x: 0 }}
                         transition={{ delay: index * 0.1 }}
-                        className="p-4 bg-white/5 rounded-xl border border-white/10 backdrop-blur-sm relative group hover:bg-white/10 transition-all duration-300 cursor-pointer"
+                        className="p-4 bg-white/5 rounded-xl border border-white/10 backdrop-blur-sm relative group hover:bg-white/10 transition-all duration-300"
                       >
                         <div className="flex items-center justify-between mb-1">
                           <div className="flex items-center gap-3">
@@ -137,13 +145,14 @@ export const ROICalculator = () => {
                             ${entry.value.toLocaleString()}
                           </span>
                         </div>
-                        <div className="w-full h-1 bg-white/10 rounded-full mt-2">
-                          <motion.div
-                            initial={{ width: 0 }}
-                            animate={{ width: `${(entry.value / totalUnscheduled) * 100}%` }}
-                            transition={{ duration: 1, delay: index * 0.1 }}
-                            className="h-full rounded-full"
-                            style={{ backgroundColor: entry.color }}
+                        <div className="mt-2">
+                          <input
+                            type="range"
+                            min={entry.min}
+                            max={entry.max}
+                            value={entry.value}
+                            onChange={handleSliderChange(index)}
+                            className="w-full [&::-webkit-slider-runnable-track]:bg-white/10 [&::-webkit-slider-runnable-track]:rounded-full [&::-webkit-slider-thumb]:shadow-[0_0_8px_rgba(0,243,255,0.6)] [&::-webkit-slider-thumb]:border-[3px] [&::-webkit-slider-thumb]:border-[#00f3ff] [&::-webkit-slider-thumb]:bg-white [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:w-6 [&::-webkit-slider-thumb]:h-6 [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:cursor-pointer [&::-webkit-slider-thumb]:transition-all [&::-webkit-slider-thumb]:duration-300 [&::-webkit-slider-thumb]:hover:shadow-[0_0_12px_rgba(0,243,255,0.8)]"
                           />
                         </div>
                       </motion.div>

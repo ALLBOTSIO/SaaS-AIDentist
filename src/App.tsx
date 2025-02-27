@@ -20,6 +20,7 @@ import PatientRetention from './routes/PatientRetention';
 import AISupplies from './routes/AISupplies';
 import DSO from './routes/customers/DSO';
 import Practitioners from './routes/customers/Practitioners';
+import GiveawayPage from './routes/Giveaway';
 import LeadFormPage from './routes/LeadFormPage';
 
 const useRouting = () => {
@@ -73,6 +74,8 @@ function App() {
         <AISupplies navigate={navigate} />
       ) : currentPath === '/signup' ? (
         <SignUp navigate={navigate} />
+      ) : currentPath === '/giveaway' ? (
+        <GiveawayPage navigate={navigate} />
       ) : (
         <>
           <Header transparent={true} />

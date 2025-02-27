@@ -88,6 +88,13 @@ const navItems: NavItem[] = [
     href: '/signup',
     description: 'Create your account and set up your AI agent',
     highlight: true
+  },
+  {
+    name: 'Giveaway',
+    href: '/giveaway',
+    description: 'Enter to win a $50,000 AI automation package',
+    highlight: true,
+    isExternal: true
   }
 ];
 

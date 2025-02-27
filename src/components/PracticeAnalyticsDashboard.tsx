@@ -8,6 +8,7 @@ import { Button } from '@/components/ui/button';
 import CountUp from 'react-countup';
 import { useCalendly } from '@/lib/hooks/useCalendly';
 import { CalendlyModal } from '@/components/CalendlyModal';
+import { ResponsiveContainer, PieChart as RechartsChart, Pie, Cell, Tooltip } from 'recharts';
 
 interface MetricCardProps {
   icon: React.ElementType;
@@ -70,6 +71,27 @@ export const PracticeAnalyticsDashboard = () => {
   const [showResults, setShowResults] = useState(false);
   const { isCalendlyOpen, openCalendly, closeCalendly } = useCalendly();
 
+  const unscheduledData = [
+    { name: 'Unconfirmed Appointments', value: 194000, color: '#00f3ff' },
+    { name: 'No Insurance', value: 85000, color: '#00A6E6' },
+    { name: 'Missing Data', value: 500000, color: '#0066ff' }
+  ];
+
+  const totalUnscheduled = unscheduledData.reduce((sum, entry) => sum + entry.value, 0);
+
+  const CustomTooltip = ({ active, payload }) => {
+    if (active && payload && payload.length) {
+      const data = payload[0].payload;
+      return (
+        <div className="bg-white/10 backdrop-blur-md p-4 rounded-xl border border-white/20">
+          <p className="text-white font-medium">{data.name}</p>
+          <p className="text-[#00f3ff] font-bold">${data.value.toLocaleString()}</p>
+        </div>
+      );
+    }
+    return null;
+  };
+
   const handleSliderChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = parseInt(e.target.value);
     setAiImpactSlider(value);
@@ -100,10 +122,10 @@ export const PracticeAnalyticsDashboard = () => {
           className="text-center mb-12"
         >
           <h1 className="text-5xl md:text-6xl font-bold text-white mb-8">
-            Unlock Revenue with AI-Powered Patient Engagement
+            Unlock Revenue with AI Dentist Patient Engagement Automation
           </h1>
           <p className="text-2xl text-gray-300 max-w-4xl mx-auto leading-relaxed">
-            Transform your dental practice's growth through our AI Agent — automatically engaging patients through calls, messages, and more to capture immediate revenue opportunities
+            Transform your dental practice's growth with your own virtual AI Agent — trained to engaging patients through calls, messages, emails, and more to capture immediate revenue opportunities
           </p>
         </motion.div>
 
@@ -138,12 +160,77 @@ export const PracticeAnalyticsDashboard = () => {
         {/* AI Impact Slider */}
         <Card className="bg-white/10 backdrop-blur-md relative border-[3px] border-transparent transition-all duration-300 ease-in-out transform-gpu will-change-[border,box-shadow] hover:border-[#00f3ff] hover:shadow-[-4px_0_8px_rgba(0,243,255,0.6)] mb-8">
           <CardHeader>
-            <CardTitle className="text-3xl font-bold text-white mb-8 text-left sm:text-center">Watch what happens when AI addresses these challenges:</CardTitle>
+            <CardTitle className="text-3xl font-bold text-white mb-8 text-left sm:text-center">Watch what happens when a AI virtual is assigned these challenges:</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="space-y-6">
               <div>
-                <Label className="text-white text-lg font-medium mb-3 block">Automation Level</Label>
+                {/* Donut Chart */}
+                <div className="flex items-start gap-8 mb-8">
+                  <div className="flex-1 h-[300px]">
+                    <ResponsiveContainer width="100%" height="100%">
+                      <RechartsChart>
+                        <Pie
+                          data={unscheduledData}
+                          cx="50%"
+                          cy="50%"
+                          innerRadius={60}
+                          outerRadius={120} 
+                          paddingAngle={2}
+                          dataKey="value"
+                        >
+                          {unscheduledData.map((entry, index) => (
+                            <Cell key={`cell-${index}`} fill={entry.color} />
+                          ))}
+                        </Pie>
+                        <Tooltip content={<CustomTooltip />} />
+                      </RechartsChart>
+                    </ResponsiveContainer>
+                  </div>
+                  
+                  <div className="flex-1 space-y-4">
+                    {unscheduledData.map((entry, index) => (
+                      <motion.div
+                        key={entry.name}
+                        initial={{ opacity: 0, x: 20 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ delay: index * 0.1 }}
+                        className="p-4 bg-white/5 rounded-xl border border-white/10 backdrop-blur-sm relative group hover:bg-white/10 transition-all duration-300 cursor-pointer"
+                      >
+                        <div className="flex items-center justify-between mb-1">
+                          <div className="flex items-center gap-3">
+                            <div 
+                              className="w-3 h-3 rounded-full"
+                              style={{ backgroundColor: entry.color }}
+                            />
+                            <span className="text-white font-medium">{entry.name}</span>
+                          </div>
+                          <span className="text-[#00f3ff] font-bold">
+                            ${entry.value.toLocaleString()}
+                          </span>
+                        </div>
+                        <div className="w-full h-1 bg-white/10 rounded-full mt-2">
+                          <motion.div
+                            initial={{ width: 0 }}
+                            animate={{ width: `${(entry.value / totalUnscheduled) * 100}%` }}
+                            transition={{ duration: 1, delay: index * 0.1 }}
+                            className="h-full rounded-full"
+                            style={{ backgroundColor: entry.color }}
+                          />
+                        </div>
+                      </motion.div>
+                    ))}
+                    
+                    <div className="p-4 bg-[#00A6E6]/20 rounded-xl backdrop-blur-sm mt-6">
+                      <p className="text-gray-300 mb-1">Total Treatments Unscheduled</p>
+                      <p className="text-2xl font-bold text-white">
+                        ${totalUnscheduled.toLocaleString()}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
+                <Label className="text-white text-lg font-medium mb-3 block">AI Agent Automation Level</Label>
                 <div className="relative">
                   <Input
                     type="range"
@@ -172,7 +259,7 @@ export const PracticeAnalyticsDashboard = () => {
                     type="number"
                     value={brokenAppointments}
                     onChange={handleInputChange(setBrokenAppointments)}
-                    className="bg-white/10 border-white/20 text-white"
+                    className="bg-white/10 border-white/20 text-white transition-all duration-300 hover:border-[#00f3ff] hover:shadow-[0_0_8px_rgba(0,243,255,0.6)] focus:border-[#00f3ff] focus:shadow-[0_0_8px_rgba(0,243,255,0.6)] text-[#00f3ff] font-bold"
                     placeholder="Enter number"
                   />
                 </div>
@@ -182,7 +269,7 @@ export const PracticeAnalyticsDashboard = () => {
                     type="number"
                     value={hygieneRecallDue}
                     onChange={handleInputChange(setHygieneRecallDue)}
-                    className="bg-white/10 border-white/20 text-white"
+                    className="bg-white/10 border-white/20 text-white transition-all duration-300 hover:border-[#00f3ff] hover:shadow-[0_0_8px_rgba(0,243,255,0.6)] focus:border-[#00f3ff] focus:shadow-[0_0_8px_rgba(0,243,255,0.6)] text-[#00f3ff] font-bold"
                     placeholder="Enter number"
                   />
                 </div>
@@ -192,7 +279,7 @@ export const PracticeAnalyticsDashboard = () => {
                     type="number"
                     value={reappointmentRate}
                     onChange={handleInputChange(setReappointmentRate)}
-                    className="bg-white/10 border-white/20 text-white"
+                    className="bg-white/10 border-white/20 text-white transition-all duration-300 hover:border-[#00f3ff] hover:shadow-[0_0_8px_rgba(0,243,255,0.6)] focus:border-[#00f3ff] focus:shadow-[0_0_8px_rgba(0,243,255,0.6)] text-[#00f3ff] font-bold"
                     placeholder="Enter percentage"
                   />
                 </div>
@@ -207,7 +294,7 @@ export const PracticeAnalyticsDashboard = () => {
               >
                 <div className="p-6 bg-white/5 rounded-xl relative border-[3px] border-transparent transition-all duration-300 ease-in-out transform-gpu will-change-[border,box-shadow] hover:border-[#00f3ff] hover:shadow-[-4px_0_8px_rgba(0,243,255,0.6)]">
                   <h3 className="text-2xl font-bold text-white mb-6">
-                    Projected Monthly Impact with AI Automation
+                    Projected Monthly Impact with AI Agent Automation
                   </h3>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div>
@@ -236,7 +323,7 @@ export const PracticeAnalyticsDashboard = () => {
                     </div>
                   </div>
                   <div className="mt-6 p-6 rounded-xl flex items-center justify-between">
-                    <p className="text-white text-xl">Total Projected Monthly Value</p>
+                    <p className="text-white text-xl">Total Esteim Monthly Value</p>
                     <p className="text-5xl font-bold text-white filter drop-shadow-[0_0_8px_rgba(0,243,255,0.6)]">
                       $<CountUp end={calculateImpact(194) * 150 + calculateImpact(85) * 50} duration={1} separator="," />
                     </p>
@@ -259,11 +346,11 @@ export const PracticeAnalyticsDashboard = () => {
             href="#"
             className="inline-flex items-center px-8 py-4 text-lg font-semibold text-white rounded-xl relative border-[3px] border-white/40 transition-all duration-300 ease-in-out transform-gpu will-change-[border,box-shadow] hover:border-[#00f3ff] hover:shadow-[-4px_0_8px_rgba(0,243,255,0.6)] hover:bg-white/10"
           >
-            See How AI Solves These Issues
+            See How AI Dentist Agents Solves These Issues
             <ArrowRight className="ml-2 w-5 h-5" />
           </a>
           <p className="text-gray-300 mt-4 text-sm">
-            Limited free consultation slots available this month
+            Enter You Detial Clini into the AI Practitioner 50k Price. 
           </p>
         </motion.div>
       </div>

@@ -79,25 +79,6 @@ export const SocialProof = () => {
             </motion.div>
           ))}
         </div>
-
-        <motion.div
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
-          className="mt-8"
-        >
-          <p className="text-gray-300 mb-6">
-            Ready to transform your practice with AI?
-          </p>
-          <a 
-            href="https://calendly.com/ai-consultant/ai-project-kickoff"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center px-8 py-4 text-lg font-semibold text-white bg-[#00A6E6] rounded-xl hover:bg-[#0095D1] transition-colors duration-200"
-          >
-            Schedule a Demo
-          </a>
-        </motion.div>
       </div>
     </section>
   );

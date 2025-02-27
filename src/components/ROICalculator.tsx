@@ -20,6 +20,8 @@ const unscheduledData: UnscheduledTreatment[] = [
   { name: '6-12 months', value: 500000, color: '#1E3A8A' },
   { name: '12+ months', value: 2000000, color: '#1E40AF' }
 ];
+import { useCalendly } from '@/lib/hooks/useCalendly';
+import { CalendlyModal } from '@/components/CalendlyModal';
 
 export const ROICalculator = () => {
   const [inputs, setInputs] = useState({
@@ -33,6 +35,7 @@ export const ROICalculator = () => {
   const monthlyRevenue = (totalUnscheduled * inputs.aiConversionRate) / 100;
   const additionalHygieneRevenue = (inputs.hygieneRecallDue * inputs.hygieneReappointmentRate * 200) / 100;
   const totalMonthlyOpportunity = monthlyRevenue + additionalHygieneRevenue;
+  const { isCalendlyOpen, openCalendly, closeCalendly } = useCalendly();
 
   const CustomTooltip = ({ active, payload }: any) => {
     if (active && payload && payload.length) {
@@ -285,6 +288,7 @@ export const ROICalculator = () => {
                 </div>
 
                 <Button
+                  onClick={openCalendly}
                   className="w-full bg-white/10 text-white relative border-[3px] border-transparent transition-all duration-300 ease-in-out transform-gpu will-change-[border,box-shadow] hover:border-[#00f3ff] hover:shadow-[-4px_0_8px_rgba(0,243,255,0.6)]"
                   size="lg"
                 >
@@ -296,6 +300,7 @@ export const ROICalculator = () => {
           </div>
         </div>
       </div>
+      <CalendlyModal isOpen={isCalendlyOpen} onClose={closeCalendly} />
     </section>
   );
 };

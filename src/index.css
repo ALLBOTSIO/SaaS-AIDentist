@@ -4,6 +4,40 @@
 
 @layer base {
   :root {
+    /* Typography Scale - Enhanced for Better Hierarchy */
+    --font-size-xs: 0.75rem;     /* 12px */
+    --font-size-sm: 0.875rem;    /* 14px */
+    --font-size-base: 1rem;      /* 16px */
+    --font-size-lg: 1.125rem;    /* 18px */
+    --font-size-xl: 1.375rem;    /* 22px */
+    --font-size-2xl: 1.75rem;    /* 28px */
+    --font-size-3xl: 2.25rem;    /* 36px */
+    --font-size-4xl: 3rem;       /* 48px */
+    --font-size-5xl: 3.75rem;    /* 60px */
+    --font-size-6xl: 4.5rem;     /* 72px */
+
+    /* Line Heights */
+    --line-height-none: 1;
+    --line-height-tight: 1.25;
+    --line-height-snug: 1.375;
+    --line-height-normal: 1.5;
+    --line-height-relaxed: 1.625;
+    --line-height-loose: 2;
+
+    /* Spacing System */
+    --space-1: 0.25rem;   /* 4px */
+    --space-2: 0.5rem;    /* 8px */
+    --space-3: 0.75rem;   /* 12px */
+    --space-4: 1rem;      /* 16px */
+    --space-5: 1.25rem;   /* 20px */
+    --space-6: 1.5rem;    /* 24px */
+    --space-8: 2rem;      /* 32px */
+    --space-10: 2.5rem;   /* 40px */
+    --space-12: 3rem;     /* 48px */
+    --space-16: 4rem;     /* 64px */
+    --space-20: 5rem;     /* 80px */
+    --space-24: 6rem;     /* 96px */
+
     /* Light Mode Colors */
     --color-primary-light: #7C4DFF; /* Purple */
     --color-secondary-light: #2A3342;
@@ -67,15 +101,49 @@
   }
 
   body {
-    @apply font-sans antialiased scroll-smooth transition-colors duration-300;
+    @apply font-sans antialiased scroll-smooth transition-colors duration-300 text-base leading-normal;
     @apply bg-gradient-to-br from-blue-50 via-white to-blue-50 text-gray-900;
     @apply dark:bg-gradient-to-br dark:from-[#1E3A8A] dark:via-[#1E40AF] dark:to-[#1E3A8A] dark:text-white;
+  }
+
+  /* Typography Base Styles */
+  h1 {
+    @apply text-3xl md:text-5xl lg:text-6xl font-bold leading-[1.1] tracking-tight;
+  }
+
+  h2 {
+    @apply text-2xl md:text-4xl lg:text-5xl font-bold leading-[1.2] tracking-tight;
+  }
+
+  h3 {
+    @apply text-xl md:text-3xl lg:text-4xl font-bold leading-[1.2];
+  }
+
+  h4 {
+    @apply text-lg md:text-2xl font-semibold leading-[1.3];
+  }
+
+  h5 {
+    @apply text-base md:text-xl font-semibold leading-[1.4];
+  }
+
+  h6 {
+    @apply text-sm md:text-lg font-semibold leading-[1.4];
+  }
+
+  p {
+    @apply text-base md:text-lg leading-relaxed mb-4 text-gray-300;
+  }
+
+  /* Section Spacing */
+  section {
+    @apply py-16 md:py-20 lg:py-28;
   }
 }
 
 @layer components {
   .btn-primary {
-    @apply inline-flex items-center justify-center px-6 py-3 text-base font-medium text-white bg-[#0076A6] rounded-lg;
+    @apply inline-flex items-center justify-center px-8 py-4 text-base font-medium text-white bg-[#0076A6] rounded-lg;
     @apply relative border-[3px] border-transparent;
     @apply transition-all duration-300 ease-in-out;
     @apply transform-gpu will-change-[border,box-shadow];
@@ -84,7 +152,7 @@
   }
 
   .btn-secondary {
-    @apply inline-flex items-center justify-center px-6 py-3 text-base font-medium text-white rounded-lg;
+    @apply inline-flex items-center justify-center px-8 py-4 text-base font-medium text-white rounded-lg;
     @apply relative border-[3px] border-white/40;
     @apply transition-all duration-300 ease-in-out;
     @apply transform-gpu will-change-[border,box-shadow];
@@ -93,7 +161,7 @@
   }
 
   .card {
-    @apply bg-white/10 backdrop-blur-md rounded-2xl p-6 lg:p-8;
+    @apply bg-white/10 backdrop-blur-md rounded-2xl p-8 lg:p-10;
     @apply relative border-[3px] border-transparent;
     @apply transition-all duration-300 ease-in-out;
     @apply transform-gpu will-change-[border,box-shadow];
@@ -105,19 +173,19 @@
   }
 
   .section-padding {
-    @apply py-12 px-4 sm:px-6 lg:px-8;
+    @apply py-16 md:py-20 lg:py-24 px-4 sm:px-6 lg:px-8;
   }
 
   .section-title {
-    @apply text-3xl font-bold text-white mb-6;
+    @apply text-2xl md:text-4xl lg:text-5xl font-bold text-white mb-8 leading-[1.2] tracking-tight;
   }
 
   .section-subtitle {
-    @apply text-lg text-gray-300 max-w-3xl mx-auto;
+    @apply text-lg md:text-xl text-gray-300 max-w-3xl mx-auto leading-relaxed;
   }
 
   .feature-badge {
-    @apply inline-block px-4 py-2 rounded-full bg-[#00B8FF]/15 text-[#00B8FF] text-sm font-medium mb-6;
+    @apply inline-block px-6 py-2.5 rounded-full bg-[#00B8FF]/15 text-[#00B8FF] text-base font-medium mb-8;
   }
 
   .card-hover {

@@ -65,7 +65,7 @@ const Hero = () => {
   };
 
   return (
-    <div className="relative min-h-screen w-full flex items-center justify-center">
+    <div className="relative min-h-[calc(100vh-55px)] w-full flex items-center justify-center">
       {/* Professional Medical Background */}
       <div className="absolute inset-0 w-full bg-gradient-to-br from-[#1E3A8A] via-[#1E40AF] to-[#1E3A8A]">
         {/* Subtle Medical-themed Decorative Elements */}
@@ -98,9 +98,9 @@ const Hero = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.1 }}
-            className="inline-block px-6 py-3 rounded-full bg-white/10 text-white text-sm font-medium mb-8 backdrop-blur-sm border border-white/20 shadow-lg hover:bg-white/20 transition-colors"
+            className="inline-block px-6 py-3 rounded-full bg-white/10 text-white text-sm font-medium mb-6 backdrop-blur-sm border border-white/20 shadow-lg hover:bg-white/20 transition-colors"
           >
-            AI-Powered Voice Agents
+            Transform Your Practice with AI
           </motion.span>
           
           <div className="h-[220px] sm:h-[180px] md:h-[160px] mb-8">
@@ -162,7 +162,7 @@ const Hero = () => {
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
             >
-              Create Free Account
+              Create My AI Agent
             </motion.a>
           </motion.div>
         </div>
@@ -183,9 +183,21 @@ const Hero = () => {
               initial={{ opacity: 0, scale: 0.95, y: 20 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.95, y: 20 }}
-              className="fixed left-4 right-4 top-20 max-w-4xl mx-auto z-50"
+              className="fixed inset-0 flex items-center justify-center z-50 p-4"
+              onClick={(e) => e.stopPropagation()}
             >
-              <LeadForm onClose={() => setShowLeadForm(false)} />
+              <div className="relative w-full max-w-4xl">
+                <button
+                  onClick={() => setShowLeadForm(false)}
+                  className="absolute -top-2 -right-2 p-2 bg-white/10 hover:bg-white/20 backdrop-blur-sm rounded-full text-white transition-colors duration-300 z-50"
+                  aria-label="Close form"
+                >
+                  <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                  </svg>
+                </button>
+                <LeadForm onClose={() => setShowLeadForm(false)} />
+              </div>
             </motion.div>
           </>
         )}

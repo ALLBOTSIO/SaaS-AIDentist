@@ -6,6 +6,8 @@ import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import CountUp from 'react-countup';
+import { useCalendly } from '@/lib/hooks/useCalendly';
+import { CalendlyModal } from '@/components/CalendlyModal';
 
 interface MetricCardProps {
   icon: React.ElementType;
@@ -30,18 +32,18 @@ const MetricCard: React.FC<MetricCardProps> = ({
     className="relative group"
   >
     <Card className="bg-white/10 backdrop-blur-md relative border-[3px] border-transparent transition-all duration-300 ease-in-out transform-gpu will-change-[border,box-shadow] group-hover:border-[#00f3ff] group-hover:shadow-[-4px_0_8px_rgba(0,243,255,0.6)]">
-      <CardContent className="p-6">
+      <CardContent className="p-8">
         <div className="flex items-start justify-between">
           <div className="flex-1">
-            <h3 className="text-lg font-semibold text-white mb-2">{title}</h3>
-            <p className="text-sm text-gray-300">{description}</p>
+            <h3 className="text-2xl font-semibold text-white mb-3">{title}</h3>
+            <p className="text-lg text-gray-300">{description}</p>
           </div>
-          <div className="flex items-center gap-3 text-[#00f3ff]">
-            <span className="text-2xl font-bold"><CountUp end={value} duration={2} separator="," /></span>
+          <div className="flex flex-col items-end gap-1 text-[#00f3ff]">
             <div className="flex items-center gap-1 text-sm bg-[#00f3ff]/10 px-2 py-1 rounded-full">
               <ArrowUpRight className="w-4 h-4" />
               <span>+{trend}%</span>
             </div>
+            <span className="text-4xl font-bold"><CountUp end={value} duration={2} separator="," /></span>
           </div>
         </div>
       </CardContent>
@@ -51,7 +53,11 @@ const MetricCard: React.FC<MetricCardProps> = ({
 
 export const PracticeAnalyticsDashboard = () => {
   const [aiImpactSlider, setAiImpactSlider] = useState(50);
+  const [brokenAppointments, setBrokenAppointments] = useState(20);
+  const [hygieneRecallDue, setHygieneRecallDue] = useState(500);
+  const [reappointmentRate, setReappointmentRate] = useState(65);
   const [showResults, setShowResults] = useState(false);
+  const { isCalendlyOpen, openCalendly, closeCalendly } = useCalendly();
 
   const handleSliderChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = parseInt(e.target.value);
@@ -64,25 +70,30 @@ export const PracticeAnalyticsDashboard = () => {
     return Math.round((baseValue * aiImpactSlider) / 100);
   };
 
+  const handleInputChange = (setter: React.Dispatch<React.SetStateAction<number>>) => (
+    e: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    const value = Number(e.target.value);
+    if (!isNaN(value)) {
+      setter(value);
+      setShowResults(true);
+    }
+  };
+
   return (
     <section className="py-24 relative overflow-hidden bg-gradient-to-br from-[#1E3A8A] via-[#1E40AF] to-[#1E3A8A]">
       <div className="absolute inset-0 bg-grid-pattern opacity-20" />
-      
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           className="text-center mb-12"
         >
-          <span className="inline-block px-4 py-2 rounded-full bg-[#00A6E6]/10 text-[#00A6E6] text-sm font-medium mb-6">
-            Practice Health Metrics
-          </span>
-          <h2 className="text-3xl font-bold text-white mb-4">
-            Practice Health Metrics: 7-Day Overview
-          </h2>
-          <p className="text-lg text-gray-300">
-            Your practice's key performance indicators from {new Date().toLocaleDateString()} to{' '}
-            {new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toLocaleDateString()}
+          <h1 className="text-5xl md:text-6xl font-bold text-white mb-8">
+            Your Practice's Current Challenges
+          </h1>
+          <p className="text-2xl text-gray-300 max-w-4xl mx-auto leading-relaxed">
+            Opportunities identified in your practice in the last 7 days that our AI Agent can help address and increase your revenue
           </p>
         </motion.div>
 
@@ -91,33 +102,33 @@ export const PracticeAnalyticsDashboard = () => {
           <MetricCard
             icon={Calendar}
             title="Unconfirmed Appointments"
-            value={97}
+            value={194}
             subtitle="Patients with unconfirmed appointments"
             description="Displays patients without 'Confirmed' appointment status"
-            trend={15}
+            trend={35}
           />
           <MetricCard
             icon={UserPlus}
             title="New Patients No Insurance"
-            value={18}
+            value={85}
             subtitle="New patients missing insurance data"
             description="New patient visits without attached insurance plans"
-            trend={8}
+            trend={28}
           />
           <MetricCard
             icon={AlertCircle}
             title="Missing Data or Balance"
-            value={194}
+            value={500}
             subtitle="Patients with incomplete records"
             description="Patients missing phone, email, address, referral or with balance"
-            trend={12}
+            trend={62}
           />
         </div>
 
         {/* AI Impact Slider */}
         <Card className="bg-white/10 backdrop-blur-md relative border-[3px] border-transparent transition-all duration-300 ease-in-out transform-gpu will-change-[border,box-shadow] hover:border-[#00f3ff] hover:shadow-[-4px_0_8px_rgba(0,243,255,0.6)] mb-8">
           <CardHeader>
-            <CardTitle className="text-xl text-white">Potential AI Impact</CardTitle>
+            <CardTitle className="text-3xl font-bold text-white mb-8">Watch what happens when AI addresses these challenges:</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="space-y-6">
@@ -134,11 +145,49 @@ export const PracticeAnalyticsDashboard = () => {
                   />
                   <div className="flex justify-between text-base font-medium text-white/90 mt-3">
                     <span className="bg-white/10 px-3 py-1 rounded-full">Conservative</span>
-                    <span className="bg-[#00A6E6]/20 px-3 py-1 rounded-full relative border-[3px] border-transparent transition-all duration-300 ease-in-out transform-gpu will-change-[border,box-shadow] hover:border-[#00f3ff] hover:shadow-[-4px_0_8px_rgba(0,243,255,0.6)] text-[#00f3ff] font-bold">{aiImpactSlider}%</span>
+                    <div className="flex flex-col items-center">
+                      <span className="text-[#00f3ff] font-bold text-2xl mb-1">{aiImpactSlider}%</span>
+                      <span className="text-white/60 text-sm">Automation</span>
+                    </div>
                     <span className="bg-white/10 px-3 py-1 rounded-full">Aggressive</span>
                   </div>
                 </div>
               </div>
+
+              {/* Input Fields */}
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6 bg-white/5 p-6 rounded-xl">
+                <div>
+                  <Label className="text-white mb-2 block">Broken Appointments (monthly)</Label>
+                  <Input
+                    type="number"
+                    value={brokenAppointments}
+                    onChange={handleInputChange(setBrokenAppointments)}
+                    className="bg-white/10 border-white/20 text-white"
+                    placeholder="Enter number"
+                  />
+                </div>
+                <div>
+                  <Label className="text-white mb-2 block">Hygiene Recall Due</Label>
+                  <Input
+                    type="number"
+                    value={hygieneRecallDue}
+                    onChange={handleInputChange(setHygieneRecallDue)}
+                    className="bg-white/10 border-white/20 text-white"
+                    placeholder="Enter number"
+                  />
+                </div>
+                <div>
+                  <Label className="text-white mb-2 block">Hygiene Reappointment Rate (%)</Label>
+                  <Input
+                    type="number"
+                    value={reappointmentRate}
+                    onChange={handleInputChange(setReappointmentRate)}
+                    className="bg-white/10 border-white/20 text-white"
+                    placeholder="Enter percentage"
+                  />
+                </div>
+              </div>
+              <p className="text-center text-gray-300 text-sm">Adjust these values to match your practice</p>
 
               {/* Results Panel */}
               <motion.div
@@ -147,39 +196,39 @@ export const PracticeAnalyticsDashboard = () => {
                 className="space-y-6"
               >
                 <div className="p-6 bg-white/5 rounded-xl relative border-[3px] border-transparent transition-all duration-300 ease-in-out transform-gpu will-change-[border,box-shadow] hover:border-[#00f3ff] hover:shadow-[-4px_0_8px_rgba(0,243,255,0.6)]">
-                  <h3 className="text-lg font-semibold text-white mb-6">
+                  <h3 className="text-2xl font-bold text-white mb-6">
                     Projected Monthly Impact with AI Automation
                   </h3>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div>
                       <p className="text-white text-lg font-medium mb-2">Additional Confirmed Appointments</p>
                       <p className="text-2xl font-bold text-[#00f3ff] filter drop-shadow-[0_0_8px_rgba(0,243,255,0.6)] transition-all duration-300">
-                        <CountUp end={calculateImpact(97)} duration={1} />
+                        <CountUp end={calculateImpact(194)} duration={1} />
                       </p>
                     </div>
                     <div>
                       <p className="text-white text-lg font-medium mb-2">Value of Confirmed Appointments</p>
                       <p className="text-2xl font-bold text-[#00f3ff] filter drop-shadow-[0_0_8px_rgba(0,243,255,0.6)] transition-all duration-300">
-                        $<CountUp end={calculateImpact(97) * 150} duration={1} separator="," />
+                        $<CountUp end={calculateImpact(194) * 150} duration={1} separator="," />
                       </p>
                     </div>
                     <div>
                       <p className="text-white text-lg font-medium mb-2">Insurance Verification Completed</p>
                       <p className="text-2xl font-bold text-[#00f3ff] filter drop-shadow-[0_0_8px_rgba(0,243,255,0.6)] transition-all duration-300">
-                        <CountUp end={calculateImpact(18)} duration={1} />
+                        <CountUp end={calculateImpact(85)} duration={1} />
                       </p>
                     </div>
                     <div>
                       <p className="text-white text-lg font-medium mb-2">Staff Hours Saved</p>
                       <p className="text-2xl font-bold text-[#00f3ff] filter drop-shadow-[0_0_8px_rgba(0,243,255,0.6)] transition-all duration-300">
-                        <CountUp end={calculateImpact(40)} duration={1} /> hrs
+                        <CountUp end={calculateImpact(85)} duration={1} /> hrs
                       </p>
                     </div>
                   </div>
-                  <div className="mt-6 p-6 bg-[#00f3ff] rounded-xl flex items-center justify-between">
-                    <p className="text-white text-lg">Total Projected Monthly Value</p>
+                  <div className="mt-6 p-6 rounded-xl flex items-center justify-between">
+                    <p className="text-white text-xl">Total Projected Monthly Value</p>
                     <p className="text-5xl font-bold text-white filter drop-shadow-[0_0_8px_rgba(0,243,255,0.6)]">
-                      $<CountUp end={calculateImpact(97) * 150 + calculateImpact(40) * 50} duration={1} separator="," />
+                      $<CountUp end={calculateImpact(194) * 150 + calculateImpact(85) * 50} duration={1} separator="," />
                     </p>
                   </div>
                 </div>
@@ -194,18 +243,21 @@ export const PracticeAnalyticsDashboard = () => {
           animate={{ opacity: 1, y: 0 }}
           className="text-center"
         >
-          <Button
-            size="lg"
-            className="bg-[#00f3ff] text-white px-8 py-6 text-lg font-semibold relative border-[3px] border-transparent transition-all duration-300 ease-in-out transform-gpu will-change-[border,box-shadow] hover:border-[#00f3ff] hover:shadow-[-4px_0_8px_rgba(0,243,255,0.6)]"
+          <p className="text-gray-300 mb-6">Ready to see exactly how AI would transform your practice?</p>
+          <a
+            onClick={openCalendly}
+            href="#"
+            className="inline-flex items-center px-8 py-4 text-lg font-semibold text-white rounded-xl relative border-[3px] border-white/40 transition-all duration-300 ease-in-out transform-gpu will-change-[border,box-shadow] hover:border-[#00f3ff] hover:shadow-[-4px_0_8px_rgba(0,243,255,0.6)] hover:bg-white/10"
           >
-            Schedule AI Demo
+            See How AI Solves These Issues
             <ArrowRight className="ml-2 w-5 h-5" />
-          </Button>
-          <p className="text-gray-300 mt-4">
-            See how AI can transform your practice operations
+          </a>
+          <p className="text-gray-300 mt-4 text-sm">
+            Limited free consultation slots available this month
           </p>
         </motion.div>
       </div>
+      <CalendlyModal isOpen={isCalendlyOpen} onClose={closeCalendly} />
     </section>
   );
 };

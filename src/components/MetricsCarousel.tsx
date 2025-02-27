@@ -15,16 +15,14 @@ const metrics = [
       { value: 62, suffix: '%', label: 'Reduction in Billing Errors' },
       { value: 85, suffix: '%', label: 'Decrease in Insurance Verification Time' },
       { value: 47, suffix: '%', label: 'Increase in Treatment Plan Acceptance' },
-      { value: 23, suffix: 'hrs', label: 'Weekly Staff Time Saved' }
+      { value: 23, suffix: 'hrs', label: 'Weekly Staff Time Saved', isBold: true }
     ]
   }
 ];
 
 export const MetricsCarousel = () => {
   return (
-    <section className="relative py-24 bg-gradient-to-br from-[#1E3A8A] via-[#1E40AF] to-[#1E3A8A]">
-      <div className="absolute inset-0 bg-grid-pattern opacity-20" />
-      
+    <section className="relative py-24">
       <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-8">
         {/* Headline */}
         <div className="text-center mb-16">
@@ -72,7 +70,7 @@ export const MetricsCarousel = () => {
                     separator=","
                   />
                 </motion.div>
-                <p className="text-gray-300 text-center">{stat.label}</p>
+                <p className={`text-gray-300 text-center ${stat.isBold ? 'font-bold' : ''}`}>{stat.label}</p>
               </div>
             </div>
           ))}

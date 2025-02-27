@@ -54,7 +54,8 @@ function App() {
   return (
     <div className="min-h-screen relative">
       {fixedBackground}
-      {currentPath === '/insur-verify' ? (
+      <div className="relative z-10">
+        {currentPath === '/insur-verify' ? (
         <InsuranceVerification navigate={navigate} />
       ) : currentPath === '/customers/dso' ? (
         <DSO navigate={navigate} />
@@ -75,28 +76,27 @@ function App() {
       ) : (
         <>
           <Header transparent={true} />
-          <div className="relative z-10">
-            <div id="home" className="min-h-screen flex items-center relative">
-              <Hero />
-            </div>
-            <div id="metrics" className="relative">
-              <MetricsCarousel />
-              <PracticeAnalyticsDashboard />
-            </div>
-            <div id="roi" className="relative">
-              <ROICalculator />
-            </div>
-            <div id="proof" className="relative">
-              <SocialProof />
-            </div>
-            <div id="cta" className="relative">
-              <CTABanner />
-            </div>
+          <div id="home" className="min-h-screen flex items-center relative">
+            <Hero />
+          </div>
+          <div id="metrics" className="relative">
+            <MetricsCarousel />
+            <PracticeAnalyticsDashboard />
+          </div>
+          <div id="roi" className="relative">
+            <ROICalculator />
+          </div>
+          <div id="proof" className="relative">
+            <SocialProof />
+          </div>
+          <div id="cta" className="relative">
+            <CTABanner />
           </div>
           <VoiceAgentWidget />
           <Toaster />
         </>
       )}
+      </div>
       {currentPath !== '/signup' && <Footer />}
     </div>
   );

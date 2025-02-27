@@ -92,8 +92,7 @@ export const PracticeAnalyticsDashboard = () => {
   };
 
   return (
-    <section className="py-24 relative overflow-hidden bg-gradient-to-br from-[#1E3A8A] via-[#1E40AF] to-[#1E3A8A]">
-      <div className="absolute inset-0 bg-grid-pattern opacity-20" />
+    <section className="py-24 relative overflow-hidden">
       <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-8">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -101,10 +100,10 @@ export const PracticeAnalyticsDashboard = () => {
           className="text-center mb-12"
         >
           <h1 className="text-5xl md:text-6xl font-bold text-white mb-8">
-            Your Practice's Current Challenges
+            Unlock Revenue with AI-Powered Patient Engagement
           </h1>
           <p className="text-2xl text-gray-300 max-w-4xl mx-auto leading-relaxed">
-            Opportunities identified in your practice in the last 7 days that our AI Agent can help address and increase your revenue
+            Transform your dental practice's growth through our AI Agent — automatically engaging patients through calls, messages, and more to capture immediate revenue opportunities
           </p>
         </motion.div>
 
@@ -115,7 +114,7 @@ export const PracticeAnalyticsDashboard = () => {
             title="Unconfirmed Appointments"
             value={194}
             subtitle="Patients without confirmed status"
-            description="Displays patients without 'Confirmed' appointment status"
+           description="Automatically confirms pending appointments by contacting patients with unconfirmed status"
             trend={35}
           />
           <MetricCard

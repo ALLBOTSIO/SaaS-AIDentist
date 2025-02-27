@@ -93,6 +93,12 @@ const LeadForm = () => {
         aria-hidden="true"
       />
       <div className="relative" role="form" aria-label={`Step ${currentStep + 1} of ${steps.length}: ${steps[currentStep].title}`}>
+      <div className="text-center mb-8">
+        <h1 className="text-2xl md:text-3xl font-bold text-white mb-4">
+          AI Agent Creation Portal: <br /> Customize Your Practice's Digital Assistant
+        </h1>
+        <div className="h-1 w-20 bg-[#00f3ff] mx-auto rounded-full shadow-[0_0_8px_rgba(0,243,255,0.6)]"></div>
+      </div>
       <ProgressBar currentStep={currentStep} totalSteps={steps.length} />
       
       <AnimatePresence mode="wait">

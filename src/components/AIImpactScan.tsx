@@ -212,12 +212,15 @@ export const AIImpactScan = () => {
           {/* Widget Container */}
           <div 
             id="local-marketing-widget" 
-            className="min-h-[600px] border border-white/20 rounded-lg p-4 bg-white/10 backdrop-blur-md hover:bg-white/20 transition-all duration-300"
+            className="min-h-[600px] rounded-lg p-4 bg-white/10 backdrop-blur-md card-hover"
           >
-            {/* Widget will be injected here */}
-            <div className="flex justify-center items-center h-[600px]">
-              <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#00A6E6] border-t-2 border-white/20"></div>
-            </div>
+            <script
+              data-widget-id="6d0978c47a4cce41d5cee6ae7275b5eac688e3bd"
+              src="https://www.local-marketing-reports.com/m/assets-v2/lead-gen/js/external/widget-builder.js"
+              async
+              defer
+              crossOrigin="anonymous"
+            />
           </div>
         </motion.div>
 
@@ -234,7 +237,7 @@ export const AIImpactScan = () => {
             href="https://calendly.com/ai-consultant/ai-project-kickoff"
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center px-8 py-4 text-lg font-semibold text-white bg-[#00A6E6] rounded-xl hover:bg-[#0095D1] transition-colors duration-200"
+            className="btn-secondary inline-flex items-center px-8 py-4 text-lg font-semibold"
           >
             Speak to an Expert
             <ArrowRight className="ml-2 w-5 h-5" />

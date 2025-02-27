@@ -1,55 +1,74 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Calculator, DollarSign, Users, Clock, ArrowRight } from 'lucide-react';
+import { Calculator, DollarSign, Users, Clock, ArrowRight, PieChart, BarChart2 } from 'lucide-react';
 import { Button } from './ui/button';
+import { Label } from './ui/label';
 import { Input } from './ui/input';
 import { Card, CardHeader, CardTitle, CardContent } from './ui/card';
+import { Pie, Cell, ResponsiveContainer, Tooltip, PieChart as RechartsChart } from 'recharts';
+import CountUp from 'react-countup';
+
+interface UnscheduledTreatment {
+  name: string;
+  value: number;
+  color: string;
+}
+
+const initialUnscheduledData: UnscheduledTreatment[] = [
+  { name: '1-3 months', value: 603000, color: '#00A6E6', min: 100000, max: 1000000 },
+  { name: '3-6 months', value: 300000, color: '#0095D1', min: 100000, max: 1000000 },
+  { name: '6-12 months', value: 500000, color: '#1E3A8A', min: 100000, max: 1000000 },
+  { name: '12+ months', value: 2000000, color: '#1E40AF', min: 100000, max: 1000000 }
+];
+import { useCalendly } from '@/lib/hooks/useCalendly';
+import { CalendlyModal } from '@/components/CalendlyModal';
 
 export const ROICalculator = () => {
+  const [unscheduledData, setUnscheduledData] = useState(initialUnscheduledData);
   const [inputs, setInputs] = useState({
-    patientsPerMonth: 200,
-    avgAppointmentValue: 150,
-    noShowRate: 15,
-    staffHours: 40
+    brokenAppointments: 20,
+    hygieneRecallDue: 500,
+    hygieneReappointmentRate: 65,
+    aiConversionRate: 5
   });
 
-  const calculateROI = () => {
-    const monthlyPatients = inputs.patientsPerMonth;
-    const appointmentValue = inputs.avgAppointmentValue;
-    const currentNoShows = (monthlyPatients * inputs.noShowRate) / 100;
-    const improvedNoShows = currentNoShows * 0.4; // 60% reduction
-    const savedAppointments = currentNoShows - improvedNoShows;
-    const revenueIncrease = savedAppointments * appointmentValue;
-    const staffTimeSaved = inputs.staffHours * 0.3; // 30% time savings
-    const staffCostSaved = staffTimeSaved * 25 * 4; // $25/hour, 4 weeks
+  const totalUnscheduled = unscheduledData.reduce((acc, item) => acc + item.value, 0);
+  const monthlyRevenue = (totalUnscheduled * inputs.aiConversionRate) / 100;
+  const additionalHygieneRevenue = (inputs.hygieneRecallDue * inputs.hygieneReappointmentRate * 200) / 100;
+  const totalMonthlyOpportunity = monthlyRevenue + additionalHygieneRevenue;
+  const { isCalendlyOpen, openCalendly, closeCalendly } = useCalendly();
 
-    return {
-      revenueIncrease: Math.round(revenueIncrease),
-      staffTimeSaved: Math.round(staffTimeSaved),
-      staffCostSaved: Math.round(staffCostSaved),
-      totalValue: Math.round(revenueIncrease + staffCostSaved)
-    };
+  const CustomTooltip = ({ active, payload }: any) => {
+    if (active && payload && payload.length) {
+      return (
+        <div className="bg-white p-4 rounded-lg shadow-lg border border-gray-200">
+          <p className="font-semibold text-gray-900">{payload[0].name}</p>
+          <p className="text-[#00A6E6] text-lg font-bold">
+            ${payload[0].value.toLocaleString()}
+          </p>
+        </div>
+      );
+    }
+    return null;
   };
 
-  const roi = calculateROI();
+  const handleInputChange = (field: keyof typeof inputs) => (
+    e: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    const value = Number(e.target.value);
+    setInputs(prev => ({ ...prev, [field]: value }));
+  };
+
+  const handleSliderChange = (index: number) => (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = parseInt(e.target.value);
+    const newData = [...unscheduledData];
+    newData[index] = { ...newData[index], value };
+    setUnscheduledData(newData);
+  };
 
   return (
-    <section className="relative py-12 bg-gray-900">
+    <section className="relative py-12">
       {/* Background Elements */}
-      <div className="absolute inset-0 bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900" />
-      <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxwYXRoIGQ9Ik0wIDBoNjB2NjBIMHoiLz48cGF0aCBkPSJNMzAgMzBoMzB2MzBIMzB6IiBmaWxsPSIjZmZmIiBmaWxsLW9wYWNpdHk9Ii4wNSIvPjwvZz48L3N2Zz4=')] opacity-10" />
-      <motion.div
-        initial={{ opacity: 0, scale: 0.8 }}
-        animate={{ opacity: 0.1, scale: 1 }}
-        transition={{ duration: 1.5, ease: "easeOut" }}
-        className="absolute top-0 right-0 w-[600px] h-[600px] bg-[#60A5FA]/10 rounded-full blur-3xl transform translate-x-1/3 -translate-y-1/3"
-      />
-      <motion.div
-        initial={{ opacity: 0, scale: 0.8 }}
-        animate={{ opacity: 0.05, scale: 1 }}
-        transition={{ duration: 1.5, delay: 0.2, ease: "easeOut" }}
-        className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-[#93C5FD]/10 rounded-full blur-3xl transform -translate-x-1/3 translate-y-1/3"
-      />
 
       {/* Content */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -57,162 +76,240 @@ export const ROICalculator = () => {
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="relative"
-          className="text-center mb-12"
+          className="text-center mb-16"
         >
           <span className="inline-block px-4 py-2 rounded-full bg-[#00A6E6]/10 text-[#00A6E6] text-sm font-medium mb-6">
-            ROI Calculator
+            AI Agent New Income Percentage Calculator 
           </span>
           <h2 className="text-4xl font-bold text-white mb-6">
-            Calculate Your Practice's AI Value
+            Calculate Your Practice's Income after adding an AI Agent to the work. 
           </h2>
           <p className="text-xl text-gray-300 max-w-3xl mx-auto">
-            See how much your practice could save with AI automation. Input your numbers below to get a personalized estimate.
+            See how much revenue your practice could unlock with AI-powered patient reactivation, reminders
           </p>
         </motion.div>
 
         <div className="grid lg:grid-cols-2 gap-8">
-          <motion.div
-            initial={{ opacity: 0, x: -20 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            className="relative"
-          >
-            <Card className="bg-white/10 backdrop-blur-md border-white/20 shadow-2xl">
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2 text-white">
-                  <Calculator className="h-5 w-5 text-[#00A6E6]" />
-                  Practice Metrics
+          {/* Left Column - Current Practice Metrics */}
+          <div className="space-y-8">
+            <Card className="bg-white/10 backdrop-blur-md relative border-[3px] border-transparent transition-all duration-300 ease-in-out transform-gpu will-change-[border,box-shadow] hover:border-[#00f3ff] hover:shadow-[-4px_0_8px_rgba(0,243,255,0.6)]">
+              <CardHeader className="pb-8 relative z-20">
+                <CardTitle className="text-2xl font-bold text-white mb-3">
+                  Hidden Revenue Dashboard: Your Practice's Untapped Potential
                 </CardTitle>
+                <p className="text-lg text-gray-300">
+                  Activate your AI agent to automatically convert these dormant opportunities into scheduled appointments and real revenue.
+                </p>
               </CardHeader>
-              <CardContent className="space-y-6">
-                <div>
-                  <label className="block text-sm font-medium text-gray-300 mb-2">
-                    Monthly Patients
-                  </label>
-                  <Input
-                    type="number"
-                    value={inputs.patientsPerMonth}
-                    onChange={(e) => setInputs({ ...inputs, patientsPerMonth: Number(e.target.value) })}
-                    className="bg-gray-700 border-gray-600 text-white placeholder-gray-400 focus:border-[#00A6E6] focus:ring-[#00A6E6]"
-                  />
-                </div>
-                
-                <div>
-                  <label className="block text-sm font-medium text-gray-300 mb-2">
-                    Average Appointment Value ($)
-                  </label>
-                  <Input
-                    type="number"
-                    value={inputs.avgAppointmentValue}
-                    onChange={(e) => setInputs({ ...inputs, avgAppointmentValue: Number(e.target.value) })}
-                    className="bg-gray-700 border-gray-600 text-white placeholder-gray-400 focus:border-[#00A6E6] focus:ring-[#00A6E6]"
-                  />
-                </div>
-                
-                <div>
-                  <label className="block text-sm font-medium text-gray-300 mb-2">
-                    Current No-Show Rate (%)
-                  </label>
-                  <Input
-                    type="number"
-                    value={inputs.noShowRate}
-                    onChange={(e) => setInputs({ ...inputs, noShowRate: Number(e.target.value) })}
-                    className="bg-gray-700 border-gray-600 text-white placeholder-gray-400 focus:border-[#00A6E6] focus:ring-[#00A6E6]"
-                  />
-                </div>
-                
-                <div>
-                  <label className="block text-sm font-medium text-gray-300 mb-2">
-                    Weekly Staff Hours on Admin
-                  </label>
-                  <Input
-                    type="number"
-                    value={inputs.staffHours}
-                    onChange={(e) => setInputs({ ...inputs, staffHours: Number(e.target.value) })}
-                    className="bg-gray-700 border-gray-600 text-white placeholder-gray-400 focus:border-[#00A6E6] focus:ring-[#00A6E6]"
-                  />
+              <CardContent>
+                <div className="flex items-start gap-8">
+                  <div className="flex-1 h-[300px]">
+                    <ResponsiveContainer width="100%" height="100%">
+                      <RechartsChart>
+                        <Pie
+                          data={unscheduledData}
+                          cx="50%"
+                          cy="50%"
+                          innerRadius={60}
+                          outerRadius={120}
+                          paddingAngle={2}
+                          dataKey="value"
+                        >
+                          {unscheduledData.map((entry, index) => (
+                            <Cell key={`cell-${index}`} fill={entry.color} />
+                          ))}
+                        </Pie>
+                        <Tooltip content={<CustomTooltip />} />
+                      </RechartsChart>
+                    </ResponsiveContainer>
+                  </div>
+                  
+                  <div className="flex-1 space-y-4">
+                    {unscheduledData.map((entry, index) => (
+                      <motion.div
+                        key={entry.name}
+                        initial={{ opacity: 0, x: 20 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ delay: index * 0.1 }}
+                        className="p-4 bg-white/5 rounded-xl border border-white/10 backdrop-blur-sm relative group hover:bg-white/10 transition-all duration-300"
+                      >
+                        <div className="flex items-center justify-between mb-1">
+                          <div className="flex items-center gap-3">
+                            <div 
+                              className="w-3 h-3 rounded-full"
+                              style={{ backgroundColor: entry.color }}
+                            />
+                            <span className="text-white font-medium">{entry.name}</span>
+                          </div>
+                          <span className="text-[#00A6E6] font-bold">
+                            ${entry.value.toLocaleString()}
+                          </span>
+                        </div>
+                        <div className="mt-2">
+                          <input
+                            type="range"
+                            min={entry.min}
+                            max={entry.max}
+                            value={entry.value}
+                            onChange={handleSliderChange(index)}
+                            className="w-full [&::-webkit-slider-runnable-track]:bg-white/10 [&::-webkit-slider-runnable-track]:rounded-full [&::-webkit-slider-thumb]:shadow-[0_0_8px_rgba(0,243,255,0.6)] [&::-webkit-slider-thumb]:border-[3px] [&::-webkit-slider-thumb]:border-[#00f3ff] [&::-webkit-slider-thumb]:bg-white [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:w-6 [&::-webkit-slider-thumb]:h-6 [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:cursor-pointer [&::-webkit-slider-thumb]:transition-all [&::-webkit-slider-thumb]:duration-300 [&::-webkit-slider-thumb]:hover:shadow-[0_0_12px_rgba(0,243,255,0.8)]"
+                          />
+                        </div>
+                      </motion.div>
+                    ))}
+                    
+                    <div className="p-4 bg-[#00A6E6]/20 rounded-xl backdrop-blur-sm mt-6">
+                      <p className="text-gray-300 mb-1">Total Unscheduled</p>
+                      <p className="text-2xl font-bold text-white">
+                        ${totalUnscheduled.toLocaleString()}
+                      </p>
+                    </div>
+                  </div>
                 </div>
               </CardContent>
             </Card>
-          </motion.div>
 
-          <motion.div
-            initial={{ opacity: 0, x: 20 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            className="relative"
-          >
-            <Card className="bg-white/10 backdrop-blur-md border-white/20 shadow-2xl">
+            <Card className="bg-white/10 backdrop-blur-md relative border-[3px] border-transparent transition-all duration-300 ease-in-out transform-gpu will-change-[border,box-shadow] hover:border-[#00f3ff] hover:shadow-[-4px_0_8px_rgba(0,243,255,0.6)]">
               <CardHeader>
-                <CardTitle className="flex items-center gap-2 text-white">
-                  <DollarSign className="h-5 w-5 text-[#00A6E6]" />
-                  Monthly Value Created
+                <CardTitle className="text-xl text-white">
+                  Other Income Opportunity Percentages produced by your AI Agent 
                 </CardTitle>
               </CardHeader>
               <CardContent className="space-y-6">
-                <div className="grid gap-4">
-                  <motion.div
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.1 }}
-                    className="p-4 bg-white/5 rounded-xl border border-white/10 backdrop-blur-sm"
-                  >
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center gap-2">
-                        <Users className="h-5 w-5 text-[#00A6E6]" />
-                        <span className="text-sm font-medium text-gray-300">Additional Revenue</span>
-                      </div>
-                      <span className="text-lg font-bold text-white">${roi.revenueIncrease.toLocaleString()}</span>
-                    </div>
-                  </motion.div>
+                <div className="space-y-4">
+                  <div>
+                    <Label className="text-gray-300">Broken Appointments (per month)</Label>
+                    <Input
+                      type="number"
+                      value={inputs.brokenAppointments}
+                      onChange={handleInputChange('brokenAppointments')}
+                      className="bg-white/10 border-white/20 text-white"
+                    />
+                  </div>
 
-                  <motion.div
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.2 }}
-                    className="p-4 bg-white/5 rounded-xl border border-white/10 backdrop-blur-sm"
-                  >
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center gap-2">
-                        <Clock className="h-5 w-5 text-[#00A6E6]" />
-                        <span className="text-sm font-medium text-gray-300">Staff Cost Savings</span>
-                      </div>
-                      <span className="text-lg font-bold text-white">${roi.staffCostSaved.toLocaleString()}</span>
-                    </div>
-                  </motion.div>
+                  <div>
+                    <Label className="text-gray-300">Hygiene Recall Due (patients)</Label>
+                    <Input
+                      type="number"
+                      value={inputs.hygieneRecallDue}
+                      onChange={handleInputChange('hygieneRecallDue')}
+                      className="bg-white/10 border-white/20 text-white"
+                    />
+                  </div>
 
-                  <motion.div
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.3 }}
-                    className="p-6 bg-[#00A6E6]/90 backdrop-blur-sm rounded-xl"
-                  >
-                    <div className="flex items-center justify-between">
-                      <span className="text-lg font-medium text-white">Total Monthly Value</span>
-                      <span className="text-2xl font-bold text-white">${roi.totalValue.toLocaleString()}</span>
-                    </div>
-                  </motion.div>
-                </div>
-
-                <div className="mt-6 text-center">
-                  <a
-                    href="https://calendly.com/ai-consultant/ai-project-kickoff"
-                    target="_blank"
-                    href="https://calendly.com/ai-consultant/ai-project-kickoff"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="group flex items-center justify-center w-full bg-[#00A6E6]/90 hover:bg-[#0095D1] text-white rounded-xl px-6 py-4 font-medium transition-all backdrop-blur-sm shadow-lg hover:shadow-xl"
-                  >
-                    Get Your Custom ROI Report
-                    <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
-                  </a>
+                  <div>
+                    <Label className="text-gray-300">Hygiene Reappointment Rate (%)</Label>
+                    <Input
+                      type="number"
+                      value={inputs.hygieneReappointmentRate}
+                      onChange={handleInputChange('hygieneReappointmentRate')}
+                      className="bg-white/10 border-white/20 text-white"
+                    />
+                  </div>
                 </div>
               </CardContent>
             </Card>
-          </motion.div>
+          </div>
+
+          {/* Right Column - AI Conversion & Results */}
+          <div className="space-y-8">
+            <Card className="bg-white/10 backdrop-blur-md relative border-[3px] border-transparent transition-all duration-300 ease-in-out transform-gpu will-change-[border,box-shadow] hover:border-[#00f3ff] hover:shadow-[-4px_0_8px_rgba(0,243,255,0.6)]">
+              <CardHeader>
+                <CardTitle className="text-xl text-white">
+                  AI Agent Automation Outbound Patient Closing Percentage   
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-4">
+                  <Label className="text-gray-300">
+                    AI Outbound Call Conversion Rate (%)
+                  </Label>
+                  <Input
+                    type="range"
+                    min="1"
+                    max="100"
+                    value={inputs.aiConversionRate}
+                    onChange={handleInputChange('aiConversionRate')}
+                    className="w-full"
+                  />
+                  <div className="flex justify-between text-sm text-gray-400">
+                    <span>1%</span>
+                    <span>{inputs.aiConversionRate}%</span>
+                    <span>100%</span>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+
+            <Card className="bg-white/10 backdrop-blur-md relative border-[3px] border-transparent transition-all duration-300 ease-in-out transform-gpu will-change-[border,box-shadow] hover:border-[#00f3ff] hover:shadow-[-4px_0_8px_rgba(0,243,255,0.6)]">
+              <CardHeader>
+                <CardTitle className="text-xl text-white">
+                  New Monthly Dental Office Income Created
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-6">
+                <div className="p-6 bg-white/5 rounded-xl border border-white/10">
+                  <h3 className="text-lg font-semibold text-white mb-2">
+                    Additional Revenue from AI converting Unscheduled Treatment
+                  </h3>
+                  <div className="text-3xl font-bold text-[#00A6E6] mb-2">
+                    <CountUp
+                      end={monthlyRevenue}
+                      prefix="$"
+                      separator=","
+                      duration={1}
+                    />
+                  </div>
+                  <p className="text-sm text-gray-400">
+                    Based on {inputs.aiConversionRate}% conversion of unscheduled treatment value
+                  </p>
+                </div>
+
+                <div className="p-6 bg-white/5 rounded-xl border border-white/10">
+                  <h3 className="text-lg font-semibold text-white mb-2">
+                    Additional Hygiene Appointments
+                  </h3>
+                  <div className="text-3xl font-bold text-[#00A6E6] mb-2">
+                    <CountUp
+                      end={additionalHygieneRevenue}
+                      prefix="$"
+                      separator=","
+                      duration={1}
+                    />
+                  </div>
+                  <p className="text-sm text-gray-400">
+                    Based on recall conversion rate
+                  </p>
+                </div>
+
+                <div className="p-6 bg-[#00A6E6] rounded-xl">
+                  <h3 className="text-lg font-semibold text-white mb-2">
+                    Total Monthly Revenue Opportunity
+                  </h3>
+                  <div className="text-4xl font-bold text-white">
+                    <CountUp
+                      end={totalMonthlyOpportunity}
+                      prefix="$"
+                      separator=","
+                      duration={1}
+                    />
+                  </div>
+                </div>
+
+                <Button
+                  onClick={openCalendly}
+                  className="w-full bg-white/10 text-white relative border-[3px] border-transparent transition-all duration-300 ease-in-out transform-gpu will-change-[border,box-shadow] hover:border-[#00f3ff] hover:shadow-[-4px_0_8px_rgba(0,243,255,0.6)]"
+                  size="lg"
+                >
+                  Get Your Custom ROI Report
+                  <ArrowRight className="ml-2 h-5 w-5" />
+                </Button>
+              </CardContent>
+            </Card>
+          </div>
         </div>
       </div>
+      <CalendlyModal isOpen={isCalendlyOpen} onClose={closeCalendly} />
     </section>
   );
 };

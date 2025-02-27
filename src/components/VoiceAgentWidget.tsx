@@ -2,17 +2,19 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { Mic } from 'lucide-react';
 
+const BOTTOM_PADDING = 40; // Padding from bottom in pixels
+
 export const VoiceAgentWidget = () => {
   const [isOpen, setIsOpen] = React.useState(false);
 
   return (
-    <div className="fixed bottom-6 right-6 z-50">
+    <div className={`fixed right-6 z-50 transition-all duration-300 ease-in-out`} style={{ bottom: `${BOTTOM_PADDING}px` }}>
       {isOpen ? (
         <motion.div
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
           exit={{ opacity: 0, scale: 0.9 }}
-          className="relative"
+          className="relative bg-white/10 backdrop-blur-md rounded-2xl border-[3px] border-white/20 shadow-lg transition-all duration-300 hover:border-[#00f3ff] hover:shadow-[-4px_0_8px_rgba(0,243,255,0.6)]"
         >
           <iframe
             id="audio_iframe"
@@ -23,17 +25,16 @@ export const VoiceAgentWidget = () => {
             style={{
               border: 'none',
               borderRadius: '12px',
-              boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1)',
-              background: 'transparent',
+              background: 'transparent'
             }}
           />
           <button
             onClick={() => setIsOpen(false)}
-            className="absolute -top-2 -right-2 p-2 bg-white rounded-full shadow-lg hover:bg-gray-50 transition-colors"
+            className="absolute -top-2 -right-2 p-2 bg-white/10 hover:bg-white/20 backdrop-blur-md rounded-full text-white transition-all duration-300 border-[3px] border-white/20 hover:border-[#00f3ff] hover:shadow-[-4px_0_8px_rgba(0,243,255,0.6)]"
             aria-label="Close voice agent"
           >
             <svg
-              className="w-4 h-4 text-gray-600"
+              className="w-4 h-4"
               fill="none"
               strokeLinecap="round"
               strokeLinejoin="round"
@@ -52,7 +53,7 @@ export const VoiceAgentWidget = () => {
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
           onClick={() => setIsOpen(true)}
-          className="flex items-center gap-2 px-6 py-3 bg-[#00A6E6] text-white rounded-full shadow-lg hover:bg-[#0095D1] transition-colors"
+          className="flex items-center gap-2 px-6 py-3 text-white rounded-full relative border-[3px] border-white/40 transition-all duration-300 ease-in-out transform-gpu will-change-[border,box-shadow] hover:border-[#00f3ff] hover:shadow-[-4px_0_8px_rgba(0,243,255,0.6)] hover:bg-white/10 backdrop-blur-sm"
         >
           <Mic className="w-5 h-5" />
           <span className="font-medium">Voice Assistant</span>

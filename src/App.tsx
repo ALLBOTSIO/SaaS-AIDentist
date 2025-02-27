@@ -6,11 +6,10 @@ import Hero from './components/Hero';
 import Features from './components/Features';
 import { MetricsCarousel } from './components/MetricsCarousel';
 import { ROICalculator } from './components/ROICalculator';
+import { PracticeAnalyticsDashboard } from './components/PracticeAnalyticsDashboard';
 import { SocialProof } from './components/SocialProof';
-import TeamSection from './components/TeamSection';
 import { CTABanner } from './components/CTABanner';
-import { ImplementationRoadmap } from './components/ImplementationRoadmap';
-import Footer from './components/Footer';
+import { Footer } from '@/components/shared/Footer';
 import { VoiceAgentWidget } from './components/VoiceAgentWidget';
 import { Toaster } from './components/ui/toaster';
 import InsuranceVerification from './routes/InsuranceVerification';
@@ -21,6 +20,7 @@ import PatientRetention from './routes/PatientRetention';
 import AISupplies from './routes/AISupplies';
 import DSO from './routes/customers/DSO';
 import Practitioners from './routes/customers/Practitioners';
+import GiveawayPage from './routes/Giveaway';
 import LeadFormPage from './routes/LeadFormPage';
 
 const useRouting = () => {
@@ -44,17 +44,19 @@ function App() {
   const { currentPath, navigate } = useRouting();
   const { theme } = useTheme();
 
-  const sectionStyle = "relative overflow-hidden bg-gradient-to-br from-[#1E3A8A] via-[#1E40AF] to-[#1E3A8A]";
-  const decorativeElements = (
-    <>
-      <div className="absolute inset-0 bg-gradient-to-br from-[#1E3A8A] via-[#1E40AF] to-[#1E3A8A]" />
-      <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxwYXRoIGQ9Ik0wIDBoNjB2NjBIMHoiLz48cGF0aCBkPSJNMzAgMzBoMzB2MzBIMzB6IiBmaWxsPSIjZmZmIiBmaWxsLW9wYWNpdHk9Ii4wNSIvPjwvZz48L3N2Zz4=')] opacity-20" />
-    </>
+  // Fixed background elements
+  const fixedBackground = (
+    <div className="fixed inset-0 z-0">
+      <div className="absolute inset-0 bg-gradient-to-br from-[#1E3A8A] via-[#1E40AF] to-[#1E3A8A] fixed" />
+      <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxwYXRoIGQ9Ik0wIDBoNjB2NjBIMHoiLz48cGF0aCBkPSJNMzAgMzBoMzB2MzBIMzB6IiBmaWxsPSIjZmZmIiBmaWxsLW9wYWNpdHk9Ii4wNSIvPjwvZz48L3N2Zz4=')] opacity-20 fixed" />
+    </div>
   );
 
   return (
-    <div className="min-h-screen relative bg-gradient-to-br from-blue-50 via-white to-blue-50 dark:from-[#1E3A8A] dark:via-[#1E40AF] dark:to-[#1E3A8A] transition-colors duration-300">
-      {currentPath === '/insur-verify' ? (
+    <div className="min-h-screen relative">
+      {fixedBackground}
+      <div className="relative z-10">
+        {currentPath === '/insur-verify' ? (
         <InsuranceVerification navigate={navigate} />
       ) : currentPath === '/customers/dso' ? (
         <DSO navigate={navigate} />
@@ -72,42 +74,33 @@ function App() {
         <AISupplies navigate={navigate} />
       ) : currentPath === '/signup' ? (
         <SignUp navigate={navigate} />
+      ) : currentPath === '/giveaway' ? (
+        <GiveawayPage navigate={navigate} />
       ) : (
         <>
           <Header transparent={true} />
-          <div id="home" className={sectionStyle}>
-            {decorativeElements}
+          <div id="home" className="min-h-screen flex items-center relative">
             <Hero />
           </div>
-          <div id="metrics" className={sectionStyle}>
-            {decorativeElements}
+          <div id="metrics" className="relative">
             <MetricsCarousel />
+            <PracticeAnalyticsDashboard />
           </div>
-          <div id="ai-features" className={sectionStyle}>
-            {decorativeElements}
-            <Features />
-          </div>
-          <div id="roi" className={sectionStyle}>
-            {decorativeElements}
+          <div id="roi" className="relative">
             <ROICalculator />
           </div>
-          <div id="proof" className={sectionStyle}>
-            {decorativeElements}
+          <div id="proof" className="relative">
             <SocialProof />
-            <TeamSection />
           </div>
-          <div id="cta" className={sectionStyle}>
-            {decorativeElements}
+          <div id="cta" className="relative">
             <CTABanner />
-          </div>
-          <div id="contact" className={sectionStyle}>
-            {decorativeElements}
-            <Footer />
           </div>
           <VoiceAgentWidget />
           <Toaster />
         </>
       )}
+      </div>
+      {currentPath !== '/signup' && <Footer />}
     </div>
   );
 }

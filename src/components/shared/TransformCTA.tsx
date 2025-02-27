@@ -63,7 +63,7 @@ export const TransformCTA = () => {
                   href="https://calendly.com/ai-consultant/ai-project-kickoff"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="block w-full bg-[#00A6E6] hover:bg-[#0095D1] text-white rounded-lg px-6 py-4 text-center font-medium transition-colors"
+                  className="btn-secondary block w-full text-center font-medium"
                 >
                   Book Your Free Demo
                   <ArrowRight className="ml-2 -mr-1 h-5 w-5 inline-block" />

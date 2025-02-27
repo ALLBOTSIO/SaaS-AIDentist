@@ -1,5 +1,8 @@
 import React from 'react';
 import { motion } from 'framer-motion';
+import { ArrowRight } from 'lucide-react';
+import { useCalendly } from '@/lib/hooks/useCalendly';
+import { CalendlyModal } from '@/components/CalendlyModal';
 import { 
   Clock, 
   SmilePlus, 
@@ -77,8 +80,28 @@ const features = [
 ];
 
 export const AIFeatures = () => {
+  const { isCalendlyOpen, openCalendly, closeCalendly } = useCalendly();
   return (
-    <section className="py-12 bg-gray-900">
+    <section className="relative py-24 bg-gradient-to-br from-[#1E3A8A] via-[#1E40AF] to-[#1E3A8A]">
+      <div className="absolute inset-0 bg-grid-pattern opacity-20" />
+      <motion.div
+        initial={{ opacity: 0, scale: 0.8 }}
+        animate={{ opacity: 0.15, scale: 1 }}
+        transition={{ duration: 1.5, ease: "easeOut" }}
+        className="absolute top-0 right-0 w-[600px] h-[600px] bg-[#60A5FA]/20 rounded-full blur-[100px] transform translate-x-1/3 -translate-y-1/3"
+      />
+      <motion.div
+        initial={{ opacity: 0, scale: 0.8 }}
+        animate={{ opacity: 0.1, scale: 1 }}
+        transition={{ duration: 1.5, delay: 0.2, ease: "easeOut" }}
+        className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-[#93C5FD]/20 rounded-full blur-[100px] transform -translate-x-1/3 translate-y-1/3"
+      />
+      <motion.div
+        initial={{ opacity: 0, scale: 0.8 }}
+        animate={{ opacity: 0.15, scale: 1 }}
+        transition={{ duration: 1.5, delay: 0.4, ease: "easeOut" }}
+        className="absolute top-1/4 left-1/4 w-[400px] h-[400px] bg-[#3B82F6]/20 rounded-full blur-[80px]"
+      />
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -108,23 +131,23 @@ export const AIFeatures = () => {
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
-                className="group relative"
+                transition={{ duration: 0.5, delay: index * 0.05 }}
+                className="h-full group"
               >
-                <div className="h-full bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 p-8">
-                  <div className={`w-14 h-14 rounded-xl bg-gradient-to-br ${feature.color} flex items-center justify-center transform group-hover:scale-110 transition-transform duration-300`}>
-                    <Icon className="w-7 h-7 text-white" />
+                <div className="relative h-full bg-white/10 backdrop-blur-md rounded-2xl p-8 card-hover">
+                  <div className="flex flex-col h-full">
+                    <div className={`w-14 h-14 rounded-xl bg-gradient-to-br ${feature.color} flex items-center justify-center transform group-hover:scale-110 transition-transform duration-300`}>
+                      <Icon className="w-7 h-7 text-white" />
+                    </div>
+                    
+                    <h3 className="text-xl font-bold text-white mt-6 mb-4">
+                      {feature.title}
+                    </h3>
+                    
+                    <p className="text-gray-300 leading-relaxed flex-grow">
+                      {feature.description}
+                    </p>
                   </div>
-                  
-                  <h3 className="text-xl font-bold text-gray-900 mt-6 mb-4">
-                    {feature.title}
-                  </h3>
-                  
-                  <p className="text-gray-600 leading-relaxed">
-                    {feature.description}
-                  </p>
-
-                  <div className="absolute inset-0 rounded-2xl ring-1 ring-inset ring-gray-900/10 group-hover:ring-gray-900/20 transition-all duration-300" />
                 </div>
               </motion.div>
             );
@@ -138,13 +161,15 @@ export const AIFeatures = () => {
           transition={{ duration: 0.8, delay: 0.5 }}
           className="mt-16 text-center"
         >
-          <a 
-            href="#contact" 
-            className="inline-flex items-center px-8 py-4 text-lg font-semibold text-white bg-[#00A6E6] rounded-xl hover:bg-[#0095D1] transition-colors duration-200 shadow-lg hover:shadow-xl"
+          <button
+            onClick={openCalendly}
+            className="btn-secondary inline-flex items-center px-8 py-4 text-lg font-semibold"
           >
-            Get Started Today
-          </a>
+            Book a Demo
+            <ArrowRight className="ml-2 w-5 h-5" />
+          </button>
         </motion.div>
+        <CalendlyModal isOpen={isCalendlyOpen} onClose={closeCalendly} />
       </div>
     </section>
   );

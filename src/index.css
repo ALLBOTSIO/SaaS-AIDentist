@@ -5,9 +5,9 @@
 @layer base {
   :root {
     /* Light Mode Colors */
-    --color-primary-light: #0076A6; /* Darkened for better contrast */
+    --color-primary-light: #7C4DFF; /* Purple */
     --color-secondary-light: #2A3342;
-    --color-accent-light: #F0F7FF;
+    --color-accent-light: #66FFB2; /* Mint Green */
     --color-success-light: #34D399;
     --color-warning-light: #F59E0B;
     --color-error-light: #DC2626; /* Darkened for better contrast */
@@ -15,9 +15,9 @@
 
     /* Dark Mode Colors */
     /* Brand Colors */
-    --color-primary: #00B8FF; /* Brightened for better contrast on dark backgrounds */
+    --color-primary: #7C4DFF; /* Purple */
     --color-secondary: #2A3342;
-    --color-accent: #F0F7FF;
+    --color-accent: #66FFB2; /* Mint Green */
 
     /* Supporting Colors */
     --color-success: #34D399;
@@ -26,9 +26,9 @@
     --color-info: #8B5CF6;
 
     /* Gradients */
-    --gradient-primary: from-[#1E3A8A] via-[#1E40AF] to-[#1E3A8A];
+    --gradient-primary: from-[#7C4DFF] via-[#6B3FFF] to-[#7C4DFF];
     --gradient-surface: from-gray-900 via-gray-800 to-gray-900;
-    --gradient-accent: from-[#00A6E6]/5 to-[#2A3342]/5;
+    --gradient-accent: from-[#66FFB2]/5 to-[#7C4DFF]/5;
 
     /* Typography */
     --font-family: 'Inter', sans-serif;
@@ -93,7 +93,11 @@
   }
 
   .card {
-    @apply bg-white rounded-2xl shadow-lg p-6 lg:p-8 hover:shadow-xl transition-all;
+    @apply bg-white/10 backdrop-blur-md rounded-2xl p-6 lg:p-8;
+    @apply relative border-[3px] border-transparent;
+    @apply transition-all duration-300 ease-in-out;
+    @apply transform-gpu will-change-[border,box-shadow];
+    @apply hover:border-[#00f3ff] hover:shadow-[-4px_0_8px_rgba(0,243,255,0.6)];
   }
 
   .gradient-text {
@@ -114,6 +118,13 @@
 
   .feature-badge {
     @apply inline-block px-4 py-2 rounded-full bg-[#00B8FF]/15 text-[#00B8FF] text-sm font-medium mb-6;
+  }
+
+  .card-hover {
+    @apply relative border-[3px] border-transparent;
+    @apply transition-all duration-300 ease-in-out;
+    @apply transform-gpu will-change-[border,box-shadow];
+    @apply hover:border-[#00f3ff] hover:shadow-[-4px_0_8px_rgba(0,243,255,0.6)];
   }
 }
 

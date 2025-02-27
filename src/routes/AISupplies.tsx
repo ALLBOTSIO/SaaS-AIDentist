@@ -163,6 +163,16 @@ const AISupplies = () => {
       <div className="min-h-screen bg-gradient-to-br from-[#1E3A8A] via-[#1E40AF] to-[#1E3A8A]">
         <Header transparent={false} />
         
+        <PageHeader
+          title="AI Supply Management"
+          subtitle="Simplify inventory tracking, automate reordering, and optimize your dental practice's supply chain with intelligent automation."
+          badge="AI-Powered Supply Management"
+          breadcrumbs={[
+            { label: 'AI Solutions', href: '#' },
+            { label: 'AI Supplies' }
+          ]}
+        />
+        
         {/* Hero Section */}
         <section className="relative pt-32 pb-20 overflow-hidden bg-gradient-to-br from-[#1E3A8A] via-[#1E40AF] to-[#1E3A8A]">
           <div className="absolute inset-0 bg-grid-pattern opacity-20" />
@@ -297,7 +307,7 @@ const AISupplies = () => {
                     transition={{ delay: index * 0.1 }}
                     className="group relative"
                   >
-                    <div className="bg-white/10 backdrop-blur-md rounded-2xl p-8 hover:bg-white/20 transition-all duration-300">
+                    <div className="bg-white/10 backdrop-blur-md rounded-2xl p-8 card-hover">
                       <div className={`w-14 h-14 rounded-xl bg-gradient-to-br ${feature.color} flex items-center justify-center transform group-hover:scale-110 transition-transform duration-300`}>
                         <Icon className="w-7 h-7 text-white" />
                       </div>

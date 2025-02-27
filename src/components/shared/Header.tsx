@@ -101,6 +101,7 @@ export const Header: React.FC<HeaderProps> = ({
   const scrollTo = useScrollTo();
   const isHomePage = window.location.pathname === '/';
   const { isCalendlyOpen, openCalendly, closeCalendly } = useCalendly();
+  const [hoveredItem, setHoveredItem] = useState<string | null>(null);
   
   const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
     e.preventDefault();
@@ -139,8 +140,8 @@ export const Header: React.FC<HeaderProps> = ({
             aria-label="Return to homepage"
           >
             <div className="relative w-10 h-10">
-              <div className="absolute inset-0 rounded-xl bg-[#00A6E6] shadow-lg flex items-center justify-center transform transition-transform duration-300 group-hover:scale-105">
-                <Bot className="w-6 h-6 text-white" />
+              <div className="absolute inset-0 rounded-xl bg-[#00A6E6] shadow-lg flex items-center justify-center transform transition-all duration-300 ease-in-out border-[3px] border-transparent group-hover:border-[#00f3ff] group-hover:shadow-[-4px_0_8px_rgba(0,243,255,0.6)]">
+                <Bot className="w-6 h-6 text-white transition-all duration-300 group-hover:filter group-hover:drop-shadow-[0_0_8px_rgba(0,243,255,1)]" />
               </div>
               <div className="absolute inset-0 rounded-xl animate-pulse bg-white/20" />
             </div>
@@ -152,40 +153,41 @@ export const Header: React.FC<HeaderProps> = ({
 
           <nav className="hidden md:flex items-center space-x-8">
             {navItems.map((item) => (
-              <div key={item.name} className="relative group">
-                <a
-                  href={item.href}
-                  className={`text-[15px] font-medium transition-colors duration-300 ${
-                    window.location.pathname === item.href || (item.href === '/setup' && window.location.pathname === '/signup')
-                      ? 'text-blue-600 dark:text-[#00A6E6]'
-                      : 'text-gray-600 hover:text-gray-900 dark:text-white/90 dark:hover:text-white'
-                  } ${item.children ? 'flex items-center' : ''}`}
-                  onClick={item.children ? (e) => e.preventDefault() : undefined}
-                >
-                  {item.name}
-                  {item.children && (
-                    <svg className="ml-2 h-4 w-4 text-white/70" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                    </svg>
-                  )}
-                </a>
+              <div
+                key={item.name}
+                className="relative group"
+                onMouseEnter={() => setHoveredItem(item.name)}
+                onMouseLeave={() => setHoveredItem(null)}
+                aria-label="Return to homepage"
+              >
+                <div className="relative">
+                  <a
+                    href={item.isExternal ? `/${item.href}` : `#${item.href}`}
+                    onClick={(e) => handleNavClick(e, item.href)}
+                    className="text-[19px] font-medium transition-all duration-300 text-white/90 hover:text-white relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-[#00f3ff] after:transition-all after:duration-300 hover:after:w-full hover:filter hover:drop-shadow-[0_0_8px_rgba(0,243,255,0.6)]"
+                    aria-current={window.location.pathname === `/${item.href}` ? 'page' : undefined}
+                    aria-label={item.name}
+                  >
+                    {item.name}
+                  </a>
+                </div>
                 {item.children && (
                   <div className="absolute left-1/2 transform -translate-x-1/2 pt-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200">
-                    <div className="bg-white rounded-xl shadow-xl p-4 w-64">
+                    <div className="bg-white dark:bg-gray-800 rounded-xl shadow-xl p-4 w-64 border-[3px] border-transparent transition-all duration-300 hover:border-[#00f3ff] hover:shadow-[-4px_0_8px_rgba(0,243,255,0.6)]">
                       {item.children.map((child) => {
                         const Icon = child.icon;
                         return (
                           <a
                             key={child.name}
                             href={child.href}
-                            className="flex items-start space-x-3 p-3 hover:bg-gray-50 rounded-lg transition-colors"
+                            className="flex items-start space-x-3 p-3 hover:bg-gray-50 dark:hover:bg-gray-700 rounded-lg transition-all duration-300 group relative after:absolute after:inset-0 after:rounded-lg after:border-[3px] after:border-transparent after:transition-all after:duration-300 hover:after:border-[#00f3ff] hover:after:shadow-[-4px_0_8px_rgba(0,243,255,0.6)]"
                           >
                             <div className="flex-shrink-0">
-                              <Icon className="h-6 w-6 text-[#00A6E6]" />
+                              <Icon className="h-6 w-6 text-[#00A6E6] transition-all duration-300 group-hover:text-[#00f3ff] group-hover:filter group-hover:drop-shadow-[0_0_8px_rgba(0,243,255,0.6)]" />
                             </div>
                             <div>
-                              <p className="text-gray-900 font-medium">{child.name}</p>
-                              <p className="text-gray-500 text-sm">{child.description}</p>
+                              <p className="text-gray-900 dark:text-white font-medium text-[19px] transition-all duration-300 group-hover:text-[#00f3ff] group-hover:filter group-hover:drop-shadow-[0_0_8px_rgba(0,243,255,0.6)]">{child.name}</p>
+                              <p className="text-gray-500 dark:text-gray-400 text-sm">{child.description}</p>
                             </div>
                           </a>
                         );
@@ -226,7 +228,7 @@ export const Header: React.FC<HeaderProps> = ({
                 <div key={item.name}>
                   {item.children ? (
                     <div className="py-2">
-                      <div className="text-white/90 font-medium mb-2">{item.name}</div>
+                      <div className="text-white/90 font-medium mb-2 text-[19px] transition-all duration-300 hover:text-[#00f3ff] hover:filter hover:drop-shadow-[0_0_8px_rgba(0,243,255,0.6)]">{item.name}</div>
                       <div className="pl-4 space-y-2">
                         {item.children.map((child) => {
                           const Icon = child.icon;
@@ -234,7 +236,7 @@ export const Header: React.FC<HeaderProps> = ({
                             <a
                               key={child.name}
                               href={child.href}
-                              className="flex items-center space-x-2 text-white/80 hover:text-white py-2"
+                              className="flex items-center space-x-2 text-white/80 hover:text-[#00f3ff] py-2 text-[19px] transition-all duration-300 hover:filter hover:drop-shadow-[0_0_8px_rgba(0,243,255,0.6)]"
                             >
                               <Icon className="h-5 w-5" />
                               <span>{child.name}</span>
@@ -244,7 +246,12 @@ export const Header: React.FC<HeaderProps> = ({
                       </div>
                     </div>
                   ) : (
-                    <a href={item.href} className="text-white/90 hover:text-white py-2 block">{item.name}</a>
+                    <a
+                      href={item.href}
+                      className="text-white/90 hover:text-[#00f3ff] py-2 block text-[19px] transition-all duration-300 hover:filter hover:drop-shadow-[0_0_8px_rgba(0,243,255,0.6)]"
+                    >
+                      {item.name}
+                    </a>
                   )}
                 </div>
               ))}

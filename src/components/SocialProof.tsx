@@ -34,7 +34,7 @@ const logos = [
 
 export const SocialProof = () => {
   return (
-    <section className="bg-gray-900 py-12">
+    <section className="py-12">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -58,20 +58,23 @@ export const SocialProof = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: index * 0.1 }}
-              className="relative rounded-2xl bg-gray-800 p-8 shadow-lg"
+              className="relative rounded-2xl bg-gradient-to-br from-white/[0.15] to-white/[0.05] backdrop-blur-[12px] border border-white/[0.15] p-8 shadow-[0_8px_32px_rgba(0,0,0,0.12)] group transition-all duration-500 hover:shadow-[0_8px_32px_rgba(0,243,255,0.12)] hover:border-[#00f3ff]/20"
             >
+              <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-white/[0.08] to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+              <div className="relative z-10">
               <div className="flex items-center mb-4">
                 {[...Array(testimonial.rating)].map((_, i) => (
-                  <Star key={i} className="h-5 w-5 text-yellow-400 fill-current" />
+                  <Star key={i} className="h-5 w-5 text-yellow-400 fill-current filter drop-shadow-[0_0_8px_rgba(250,204,21,0.3)]" />
                 ))}
               </div>
               <blockquote className="mt-4">
-                <p className="text-lg text-white">"{testimonial.quote}"</p>
+                <p className="text-lg text-white/95 leading-relaxed font-light">"{testimonial.quote}"</p>
               </blockquote>
               <div className="mt-6">
-                <p className="font-semibold text-white">{testimonial.author}</p>
-                <p className="text-sm text-gray-400">{testimonial.role}</p>
-                <p className="text-sm text-gray-500">{testimonial.practice}</p>
+                <p className="font-semibold text-white group-hover:text-[#00f3ff] transition-colors duration-500">{testimonial.author}</p>
+                <p className="text-sm text-white/80 font-medium">{testimonial.role}</p>
+                <p className="text-sm text-white/60">{testimonial.practice}</p>
+              </div>
               </div>
             </motion.div>
           ))}

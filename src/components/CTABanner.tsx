@@ -11,8 +11,7 @@ const benefits = [
 
 export const CTABanner = () => {
   return (
-    <section className="relative overflow-hidden border-t border-gray-200 bg-gradient-to-b from-gray-50 to-white dark:from-gray-900 dark:to-gray-800">
-      <div className="absolute inset-0 bg-grid-pattern opacity-5" />
+    <section className="relative overflow-hidden border-t border-gray-200">
       
       <div className="relative mx-auto max-w-7xl px-4 py-16 sm:px-6 sm:py-24 lg:px-8">
         <motion.div

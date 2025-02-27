@@ -212,7 +212,7 @@ export const AIImpactScan = () => {
           {/* Widget Container */}
           <div 
             id="local-marketing-widget" 
-            className="min-h-[600px] border-[3px] border-transparent rounded-lg p-4 bg-white/10 backdrop-blur-md transition-all duration-300 ease-in-out transform-gpu will-change-[border,box-shadow] hover:border-[#00f3ff] hover:shadow-[-4px_0_8px_rgba(0,243,255,0.6)]"
+            className="min-h-[600px] rounded-lg p-4 bg-white/10 backdrop-blur-md card-hover"
           >
             <script
               data-widget-id="6d0978c47a4cce41d5cee6ae7275b5eac688e3bd"

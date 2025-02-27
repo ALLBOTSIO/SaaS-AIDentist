@@ -61,6 +61,16 @@ const PatientRetention = () => {
       <div className="min-h-screen bg-gradient-to-br from-[#1E3A8A] via-[#1E40AF] to-[#1E3A8A]">
         <Header transparent={false} />
         
+        <PageHeader
+          title="Patient Retention"
+          subtitle="Transform your patient retention with AI-powered engagement solutions. Keep patients active and satisfied with automated, personalized communication."
+          badge="AI-Powered Patient Retention"
+          breadcrumbs={[
+            { label: 'AI Solutions', href: '#' },
+            { label: 'Patient Retention' }
+          ]}
+        />
+        
         {/* Hero Section */}
         <section className="relative pt-32 pb-20 overflow-hidden">
           <div className="absolute inset-0 bg-grid-pattern opacity-20" />
@@ -93,7 +103,7 @@ const PatientRetention = () => {
                     transition={{ delay: index * 0.1 }}
                     className="group relative"
                   >
-                    <div className="bg-white/10 backdrop-blur-md rounded-2xl p-8 hover:bg-white/20 transition-all duration-300">
+                    <div className="bg-white/10 backdrop-blur-md rounded-2xl p-8 card-hover">
                       <div className={`w-14 h-14 rounded-xl bg-gradient-to-br ${feature.color} flex items-center justify-center transform group-hover:scale-110 transition-transform duration-300`}>
                         <Icon className="w-7 h-7 text-white" />
                       </div>

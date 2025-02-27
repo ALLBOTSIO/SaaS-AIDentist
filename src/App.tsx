@@ -6,6 +6,7 @@ import Hero from './components/Hero';
 import Features from './components/Features';
 import { MetricsCarousel } from './components/MetricsCarousel';
 import { ROICalculator } from './components/ROICalculator';
+import { PracticeAnalyticsDashboard } from './components/PracticeAnalyticsDashboard';
 import { SocialProof } from './components/SocialProof';
 import { CTABanner } from './components/CTABanner';
 import { Footer } from '@/components/shared/Footer';
@@ -42,16 +43,17 @@ function App() {
   const { currentPath, navigate } = useRouting();
   const { theme } = useTheme();
 
-  const sectionStyle = "relative overflow-hidden bg-gradient-to-br from-[#1E3A8A] via-[#1E40AF] to-[#1E3A8A]";
-  const decorativeElements = (
-    <>
-      <div className="absolute inset-0 bg-gradient-to-br from-[#1E3A8A] via-[#1E40AF] to-[#1E3A8A]" />
-      <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxwYXRoIGQ9Ik0wIDBoNjB2NjBIMHoiLz48cGF0aCBkPSJNMzAgMzBoMzB2MzBIMzB6IiBmaWxsPSIjZmZmIiBmaWxsLW9wYWNpdHk9Ii4wNSIvPjwvZz48L3N2Zz4=')] opacity-20" />
-    </>
+  // Fixed background elements
+  const fixedBackground = (
+    <div className="fixed inset-0 z-0">
+      <div className="absolute inset-0 bg-gradient-to-br from-[#1E3A8A] via-[#1E40AF] to-[#1E3A8A] fixed" />
+      <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxwYXRoIGQ9Ik0wIDBoNjB2NjBIMHoiLz48cGF0aCBkPSJNMzAgMzBoMzB2MzBIMzB6IiBmaWxsPSIjZmZmIiBmaWxsLW9wYWNpdHk9Ii4wNSIvPjwvZz48L3N2Zz4=')] opacity-20 fixed" />
+    </div>
   );
 
   return (
-    <div className="min-h-screen relative bg-gradient-to-br from-blue-50 via-white to-blue-50 dark:from-[#1E3A8A] dark:via-[#1E40AF] dark:to-[#1E3A8A] transition-colors duration-300">
+    <div className="min-h-screen relative">
+      {fixedBackground}
       {currentPath === '/insur-verify' ? (
         <InsuranceVerification navigate={navigate} />
       ) : currentPath === '/customers/dso' ? (
@@ -73,29 +75,23 @@ function App() {
       ) : (
         <>
           <Header transparent={true} />
-          <div id="home" className={sectionStyle}>
-            {decorativeElements}
-            <Hero />
-          </div>
-          <div id="metrics" className={sectionStyle}>
-            {decorativeElements}
-            <MetricsCarousel />
-          </div>
-          <div id="ai-features" className={sectionStyle}>
-            {decorativeElements}
-            <Features />
-          </div>
-          <div id="roi" className={sectionStyle}>
-            {decorativeElements}
-            <ROICalculator />
-          </div>
-          <div id="proof" className={sectionStyle}>
-            {decorativeElements}
-            <SocialProof />
-          </div>
-          <div id="cta" className={sectionStyle}>
-            {decorativeElements}
-            <CTABanner />
+          <div className="relative z-10">
+            <div id="home" className="min-h-screen flex items-center relative">
+              <Hero />
+            </div>
+            <div id="metrics" className="relative">
+              <MetricsCarousel />
+              <PracticeAnalyticsDashboard />
+            </div>
+            <div id="roi" className="relative">
+              <ROICalculator />
+            </div>
+            <div id="proof" className="relative">
+              <SocialProof />
+            </div>
+            <div id="cta" className="relative">
+              <CTABanner />
+            </div>
           </div>
           <VoiceAgentWidget />
           <Toaster />

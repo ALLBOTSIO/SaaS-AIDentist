@@ -33,6 +33,15 @@ const InsuranceVerification = () => {
       </Helmet>
       <div className="min-h-screen relative">
         <Header transparent={false} />
+        <PageHeader
+          title="Insurance Verification"
+          subtitle="Transform your dental insurance verification process with AI automation. Save time, reduce errors, and improve your bottom line."
+          badge="AI-Powered Insurance Verification"
+          breadcrumbs={[
+            { label: 'AI Solutions', href: '#' },
+            { label: 'Insurance Verification' }
+          ]}
+        />
         <div id="hero" className={sectionStyle}>
           <div className="absolute inset-0 bg-gradient-to-br from-[#1E3A8A] via-[#1E40AF] to-[#1E3A8A]" />
           <div className="absolute inset-0 bg-grid-pattern opacity-20" />

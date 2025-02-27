@@ -22,6 +22,16 @@ const AIAssistant = () => {
       <div className="min-h-screen bg-gradient-primary">
         <Header transparent={false} />
         
+        <PageHeader
+          title="AI Voice Assistant"
+          subtitle="Transform your dental practice with AI-powered voice assistance. Enhance patient care and streamline operations with intelligent automation."
+          badge="AI Voice Assistant"
+          breadcrumbs={[
+            { label: 'AI Solutions', href: '#' },
+            { label: 'AI Voice Assistant' }
+          ]}
+        />
+        
         {/* Hero Section */}
         <section className="relative pt-32 pb-20 overflow-hidden bg-gradient-to-br from-[#1E3A8A] via-[#1E40AF] to-[#1E3A8A]">
           <div className="absolute inset-0 bg-grid-pattern opacity-20" />
@@ -64,13 +74,13 @@ const AIAssistant = () => {
                   href="https://calendly.com/ai-consultant/ai-project-kickoff"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="btn-secondary inline-flex items-center justify-center px-8 py-4 text-lg font-semibold"
+                  className="btn-primary inline-flex items-center justify-center px-8 py-4 text-lg font-semibold"
                 >
                   Schedule a Demo
                   <ArrowRight className="ml-2 w-5 h-5" />
                 </a>
                 <button 
-                  className="inline-flex items-center justify-center px-8 py-4 text-lg font-semibold text-white border-2 border-white/30 rounded-xl hover:bg-white/10 transform hover:-translate-y-0.5 transition-all duration-200 backdrop-blur-sm"
+                  className="btn-secondary inline-flex items-center justify-center px-8 py-4 text-lg font-semibold"
                 >
                   Try Live Demo
                 </button>

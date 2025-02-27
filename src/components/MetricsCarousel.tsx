@@ -1,7 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import CountUp from 'react-countup';
-import { ArrowUpRight, Users, TrendingUp, Clock } from 'lucide-react';
+import { ArrowUpRight, Users, TrendingUp, Clock, DollarSign } from 'lucide-react';
 
 const metrics = [
   {
@@ -47,6 +47,10 @@ export const MetricsCarousel = () => {
                     <Users className="w-6 h-6 text-white" />
                   ) : index === 1 ? (
                     <TrendingUp className="w-6 h-6 text-white" />
+                  ) : index === 2 ? (
+                    <DollarSign className="w-6 h-6 text-white" />
+                  ) : index === 3 ? (
+                    <DollarSign className="w-6 h-6 text-white" />
                   ) : (
                     <Clock className="w-6 h-6 text-white" />
                   )}

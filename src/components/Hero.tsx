@@ -13,28 +13,28 @@ interface TitleContent {
 
 const titles: TitleContent[] = [
   {
-    heading: "Reclaim Your Unscheduled Revenue with AI",
+    heading: "Reclaim Your Unscheduled Revenue with your dental office AI Agent",
     subtext: "Convert thousands in unscheduled treatment into actual appointments with AI-powered patient reactivation that works around the clock."
   },
   {
-    heading: "AI That Fills Your Schedule & Increases Revenue",
+    heading: "AI That awnser your call, fills Your Schedule & Increases Revenue",
     subtext: "Automatically confirm appointments, verify insurance, and recover patient data gaps while you focus on providing exceptional dental care."
   },
   {
-    heading: "Transform Practice Metrics into Profitability",
+    heading: "Converting Lost, Old, Practices into Profitability",
     subtext: "Our AI agents convert unconfirmed appointments, follow up on treatment plans, and reactivate overdue hygiene visits without adding staff."
   },
   {
-    heading: "Unlock $235,000+ in Monthly Revenue Potential",
+    heading: "Unlock $95,800+ in Monthly Revenue Potential",
     subtext: "AI-powered outbound calls convert just 5% of your unscheduled treatment into real appointments, creating significant new practice income."
   },
   {
-    heading: "Your 24/7 AI Practice Growth Partner",
+    heading: "Your 24/7/365 AI Assistnat Practice Growth Partner",
     subtext: "While your office is closed, our AI is confirming tomorrow's appointments, filling schedule gaps, and converting treatment plans into revenue."
   },
   {
     heading: "Never Call Insurance Companies Again",
-    subtext: "Our AI handles 100% of insurance verifications in seconds, saving your practice 32 hours monthly with 99.9% accuracy."
+    subtext: "Our AI handles 100% of insurance verifications, saving your practice 32 hours monthly with 99.9% accuracy."
   },
   {
     heading: "Automate Supply Management Across All Vendors",
@@ -98,7 +98,7 @@ const Hero = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.1 }}
-            className="inline-block px-6 py-3 rounded-full bg-white/10 text-white text-sm font-medium mb-6 backdrop-blur-sm border border-white/20 shadow-lg hover:bg-white/20 transition-colors"
+            className="inline-block px-6 py-3 rounded-full bg-white/10 text-white text-sm font-medium mb-12 backdrop-blur-sm border border-white/20 shadow-lg hover:bg-white/20 transition-colors"
           >
             Transform Your Practice with AI
           </motion.span>

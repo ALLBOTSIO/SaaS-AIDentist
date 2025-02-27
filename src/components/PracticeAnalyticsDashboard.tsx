@@ -122,7 +122,7 @@ export const PracticeAnalyticsDashboard = () => {
             title="New Patients No Insurance"
             value={85}
             subtitle="Missing insurance verification"
-            description="New patient visits without attached insurance plans"
+           description="Verifies insurance coverage for new patients. Proactively contacts new patients without attached insurance plans to collect and verify coverage information"
             trend={28}
           />
           <MetricCard
@@ -138,7 +138,7 @@ export const PracticeAnalyticsDashboard = () => {
         {/* AI Impact Slider */}
         <Card className="bg-white/10 backdrop-blur-md relative border-[3px] border-transparent transition-all duration-300 ease-in-out transform-gpu will-change-[border,box-shadow] hover:border-[#00f3ff] hover:shadow-[-4px_0_8px_rgba(0,243,255,0.6)] mb-8">
           <CardHeader>
-            <CardTitle className="text-3xl font-bold text-white mb-8">Watch what happens when AI addresses these challenges:</CardTitle>
+            <CardTitle className="text-3xl font-bold text-white mb-8 text-left sm:text-center">Watch what happens when AI addresses these challenges:</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="space-y-6">

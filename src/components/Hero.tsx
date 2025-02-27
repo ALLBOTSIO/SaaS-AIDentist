@@ -65,7 +65,7 @@ const Hero = () => {
   };
 
   return (
-    <div className="relative min-h-[calc(100vh-55px)] w-full flex items-center justify-center">
+    <div className="relative min-h-[calc(100vh-55px)] w-full flex items-center justify-center pt-[80px]">
       {/* Professional Medical Background */}
       <div className="absolute inset-0 w-full bg-gradient-to-br from-[#1E3A8A] via-[#1E40AF] to-[#1E3A8A]">
         {/* Subtle Medical-themed Decorative Elements */}
@@ -92,7 +92,7 @@ const Hero = () => {
       {/* Animated Grid Pattern */}
       <div className="absolute inset-0 w-full bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxwYXRoIGQ9Ik0wIDBoNjB2NjBIMHoiLz48cGF0aCBkPSJNMzAgMzBoMzB2MzBIMzB6IiBmaWxsPSIjZmZmIiBmaWxsLW9wYWNpdHk9Ii4wNSIvPjwvZz48L3N2Zz4=')] opacity-20" />
 
-      <div className="relative w-full flex items-center justify-center px-0">
+      <div className="relative w-full flex items-center justify-center px-6 sm:px-8 lg:px-0">
         <div className="flex flex-col items-center text-center w-full max-w-[1920px]">
           <motion.span
             initial={{ opacity: 0, y: 20 }}
@@ -111,7 +111,7 @@ const Hero = () => {
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -20 }}
                 transition={{ duration: 0.5 }}
-                className="absolute inset-x-0 px-4 sm:px-6 lg:px-8"
+                className="absolute inset-x-0 px-6 sm:px-8 lg:px-8"
               >
                 <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold leading-[1.2] text-white max-w-[1400px] mx-auto tracking-tight">
                   {titles[currentIndex].heading}

@@ -25,7 +25,7 @@ export const MetricsCarousel = () => {
     <section className="relative py-24 bg-gradient-to-br from-[#1E3A8A] via-[#1E40AF] to-[#1E3A8A]">
       <div className="absolute inset-0 bg-grid-pattern opacity-20" />
       
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-8">
         {/* Headline */}
         <div className="text-center mb-16">
           <h2 className="text-4xl font-bold text-white mb-4">
@@ -63,7 +63,7 @@ export const MetricsCarousel = () => {
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   transition={{ duration: 5 }}
-                  className="text-[45px] font-bold text-white tracking-tight text-center"
+                  className="text-[45px] font-bold text-white tracking-tight text-center value-text transition-all duration-300"
                 >
                   <CountUp
                     end={stat.value}

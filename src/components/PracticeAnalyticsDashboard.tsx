@@ -29,25 +29,36 @@ const MetricCard: React.FC<MetricCardProps> = ({
   <motion.div
     initial={{ opacity: 0, y: 20 }}
     animate={{ opacity: 1, y: 0 }}
-    className="relative group"
+    className="relative bg-white/10 backdrop-blur-md rounded-2xl p-8 card-hover flex flex-col"
   >
-    <Card className="bg-white/10 backdrop-blur-md relative border-[3px] border-transparent transition-all duration-300 ease-in-out transform-gpu will-change-[border,box-shadow] group-hover:border-[#00f3ff] group-hover:shadow-[-4px_0_8px_rgba(0,243,255,0.6)]">
-      <CardContent className="p-8">
-        <div className="flex items-start justify-between">
-          <div className="flex-1">
-            <h3 className="text-2xl font-semibold text-white mb-3">{title}</h3>
-            <p className="text-lg text-gray-300">{description}</p>
-          </div>
-          <div className="flex flex-col items-end gap-1 text-[#00f3ff]">
-            <div className="flex items-center gap-1 text-sm bg-[#00f3ff]/10 px-2 py-1 rounded-full">
-              <ArrowUpRight className="w-4 h-4" />
-              <span>+{trend}%</span>
-            </div>
-            <span className="text-4xl font-bold"><CountUp end={value} duration={2} separator="," /></span>
-          </div>
-        </div>
-      </CardContent>
-    </Card>
+    <div className="flex items-center justify-between mb-4">
+      <div className="p-2 bg-[#00A6E6]/10 rounded-xl">
+        <Icon className="w-6 h-6 text-white" />
+      </div>
+      <div className="flex items-center gap-1 text-sm bg-[#00A6E6]/10 px-2 py-1 rounded-full">
+        <ArrowUpRight className="w-6 h-6 text-white" />
+        <span className="text-white">+{trend}%</span>
+      </div>
+    </div>
+    
+    <div className="flex-1 flex flex-col items-center justify-center space-y-4">
+      <motion.div 
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 5 }}
+        className="text-[45px] font-bold text-white tracking-tight text-center value-text transition-all duration-300"
+      >
+        <CountUp
+          end={value}
+          duration={2}
+          separator=","
+        />
+      </motion.div>
+      <div className="text-center">
+        <h3 className="text-xl font-semibold text-white mb-2">{title}</h3>
+        <p className="text-gray-300">{description}</p>
+      </div>
+    </div>
   </motion.div>
 );
 
@@ -83,7 +94,7 @@ export const PracticeAnalyticsDashboard = () => {
   return (
     <section className="py-24 relative overflow-hidden bg-gradient-to-br from-[#1E3A8A] via-[#1E40AF] to-[#1E3A8A]">
       <div className="absolute inset-0 bg-grid-pattern opacity-20" />
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-8">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -98,12 +109,12 @@ export const PracticeAnalyticsDashboard = () => {
         </motion.div>
 
         {/* Metric Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
           <MetricCard
             icon={Calendar}
             title="Unconfirmed Appointments"
             value={194}
-            subtitle="Patients with unconfirmed appointments"
+            subtitle="Patients without confirmed status"
             description="Displays patients without 'Confirmed' appointment status"
             trend={35}
           />
@@ -111,7 +122,7 @@ export const PracticeAnalyticsDashboard = () => {
             icon={UserPlus}
             title="New Patients No Insurance"
             value={85}
-            subtitle="New patients missing insurance data"
+            subtitle="Missing insurance verification"
             description="New patient visits without attached insurance plans"
             trend={28}
           />
@@ -119,7 +130,7 @@ export const PracticeAnalyticsDashboard = () => {
             icon={AlertCircle}
             title="Missing Data or Balance"
             value={500}
-            subtitle="Patients with incomplete records"
+            subtitle="Incomplete patient records"
             description="Patients missing phone, email, address, referral or with balance"
             trend={62}
           />

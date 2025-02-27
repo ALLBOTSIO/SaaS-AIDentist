@@ -192,7 +192,7 @@
     @apply relative border-[3px] border-transparent;
     @apply transition-all duration-300 ease-in-out;
     @apply transform-gpu will-change-[border,box-shadow];
-    @apply hover:border-[#00f3ff] hover:shadow-[-4px_0_8px_rgba(0,243,255,0.6)];
+    @apply hover:border-[#00f3ff] hover:shadow-[-4px_0_8px_rgba(0,243,255,0.6)] hover:[&_.value-text]:text-[#00f3ff] hover:[&_.value-text]:filter hover:[&_.value-text]:drop-shadow-[0_0_8px_rgba(0,243,255,0.6)];
   }
 }
 

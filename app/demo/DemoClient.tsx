@@ -39,9 +39,12 @@ const initialForm: FormState = {
   notes: "",
 };
 
+// Paste your deployed Apps Script web app URL into NEXT_PUBLIC_SHEETS_ENDPOINT
+const SHEETS_ENDPOINT = process.env.NEXT_PUBLIC_SHEETS_ENDPOINT ?? "";
+
 export default function DemoPage() {
   const [form, setForm] = useState<FormState>(initialForm);
-  const [submitted, setSubmitted] = useState(false);
+  const [status, setStatus] = useState<"idle" | "submitting" | "success" | "error">("idle");
 
   function handleChange(
     e: React.ChangeEvent<
@@ -51,10 +54,27 @@ export default function DemoPage() {
     setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   }
 
-  function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    // TODO: wire to CRM / email handler (e.g. HubSpot, Resend, Salesforce)
-    setSubmitted(true);
+    setStatus("submitting");
+
+    try {
+      // Apps Script web apps reject JSON bodies — send as FormData so the
+      // doPost(e) handler receives e.parameter with no extra parsing needed.
+      const body = new FormData();
+      (Object.keys(form) as (keyof FormState)[]).forEach((key) =>
+        body.append(key, form[key])
+      );
+      body.append("submittedAt", new Date().toISOString());
+
+      const res = await fetch(SHEETS_ENDPOINT, { method: "POST", body });
+
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      setStatus("success");
+      setForm(initialForm);
+    } catch {
+      setStatus("error");
+    }
   }
 
   return (
@@ -105,7 +125,7 @@ export default function DemoPage() {
         <section aria-labelledby="demo-form">
           <h2 id="demo-form">Book Your Demo</h2>
 
-          {submitted ? (
+          {status === "success" ? (
             <p role="status">
               Thank you! Our team will respond within 24 business hours to
               confirm your demo time.
@@ -231,7 +251,17 @@ export default function DemoPage() {
                 />
               </div>
 
-              <button type="submit">Book My Demo</button>
+              <button type="submit" disabled={status === "submitting"}>
+                {status === "submitting" ? "Submitting…" : "Book My Demo"}
+              </button>
+
+              {status === "error" && (
+                <p role="alert">
+                  Something went wrong. Please email{" "}
+                  <a href="mailto:demo@aidentist.com">demo@aidentist.com</a>{" "}
+                  directly.
+                </p>
+              )}
             </form>
           )}
 

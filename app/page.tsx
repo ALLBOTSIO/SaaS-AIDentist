@@ -11,12 +11,23 @@ export const metadata: Metadata = {
     title: "AIDentist — AI Dental Practice Automation",
     description:
       "AI-powered dental practice automation for DSOs and practice owners. Intelligent scheduling, insurance verification, and patient engagement. Book a demo.",
+    type: "website",
     url: "https://aidentist.com",
+    images: [
+      {
+        url: "https://aidentist.com/og-image.png",
+        width: 1200,
+        height: 630,
+      },
+    ],
   },
   twitter: {
+    card: "summary_large_image",
+    site: "@aidentist",
     title: "AIDentist — AI Dental Practice Automation",
     description:
       "AI-powered dental practice automation for DSOs and practice owners. Intelligent scheduling, insurance verification, and patient engagement. Book a demo.",
+    images: ["https://aidentist.com/twitter-image.png"],
   },
 };
 
